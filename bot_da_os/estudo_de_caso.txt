@@ -1,0 +1,55 @@
+#  Sexta-feira
+
+>> Usuário:
+Quero fazer uma ordem de serviço
+
+<< Bot:
+Olá! Informe, por favor:
+	*Nome/Apelido
+	*Apartamento/Vaga
+	*Cômodo do problema
+	*Tipo do problema
+
+>> Usuário:
+Vinícius Soledade/Solenóide
+224/C
+Banheiro
+Vazamento
+
+<< Bot:
+Forneça uma breve descrição do problema
+
+>> Usuário:
+Pia vazando
+
+<< Bot: #  Registro e atribuição de prioridade na planilha
+Sua OS foi registrada! Caso queira atualizações sobre seu pedido, mande mensagem!
+
+#  Sábado
+
+>> Usuário:
+Cadê meu conserto?
+
+<< Bot:
+Sua OS ocupa a posição 8 na lista de prioridade. Previsão de resolução: segunda-feira.
+
+#  Segunda-feira
+<< Bot:
+Sua OS foi concluída! Preencha essa rápida pesquisa de satisfação: forms.google/casd
+
+>> Usuário:
+Ok, obrigado!
+
+<< Bot:
+Por nada!
+
+#  Entidades:
+"Ordem de serviço",
+Nome/Apelido,
+Apartamento/Vaga,
+Cômodo do problea.
+Tipo do problema,
+Descrição do problema,
+lista de prioridade,
+previsão de resolução,
+"Cadê meu conserto?"
