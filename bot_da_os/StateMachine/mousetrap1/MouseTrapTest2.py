@@ -1,9 +1,9 @@
+from .. import State
+from ..mouse import MouseAction
 # A better mousetrap using tables
 import string, sys
 sys.path += ['../stateMachine', '../mouse']
-from State import State
-from StateMachine import StateMachine
-from MouseAction import MouseAction
+
 
 class StateT(State):
     def __init__(self):
