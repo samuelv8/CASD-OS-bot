@@ -21,3 +21,6 @@ class StateMachine:
             self.currentState = self.currentState.next(i)
             self.currentState.run()
 
+
+a = StateMachine()
+a.runAll()
