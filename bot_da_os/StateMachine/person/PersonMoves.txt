@@ -1,15 +1,7 @@
-mouse appears
-mouse runs away
-mouse appears
-mouse enters trap
-mouse escapes
-mouse appears
-mouse enters trap
-mouse trapped
-mouse removed
-mouse appears
-mouse runs away
-mouse appears
-mouse enters trap
-mouse trapped
-mouse removed
+person compliments
+person gives information about the service order
+person is pissed off
+person gives information about the service order
+person gives information about the service order
+person wants to know about his/her order
+person compliments

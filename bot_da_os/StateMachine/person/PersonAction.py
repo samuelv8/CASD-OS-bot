@@ -15,13 +15,3 @@ PersonAction.compliment = PersonAction("person compliments")
 PersonAction.informing = PersonAction("person gives information about the service order")
 PersonAction.query = PersonAction("person wants to know about his/her order")
 PersonAction.grrr = PersonAction("person is pissed off")
-
-
-"""
-MouseAction.appears = MouseAction("mouse appears")
-MouseAction.runsAway = MouseAction("mouse runs away")
-MouseAction.enters = MouseAction("mouse enters trap")
-MouseAction.escapes = MouseAction("mouse escapes")
-MouseAction.trapped = MouseAction("mouse trapped")
-MouseAction.removed = MouseAction("mouse removed")
-"""
