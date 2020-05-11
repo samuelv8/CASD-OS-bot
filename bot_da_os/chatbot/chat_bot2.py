@@ -1,5 +1,5 @@
-from .. import State
-from ..person import PersonAction
+from bot_da_os.statemachine import state
+from bot_da_os.statemachine.person import person_action
 # A better mousetrap using tables
 import string, sys
 sys.path += ['../stateMachine', '../mouse']
@@ -8,7 +8,7 @@ sys.path += ['../stateMachine', '../mouse']
 # TEMPLATE!!!
 
 
-class StateT(State):
+class StateT(state):
     def __init__(self):
         self.transitions = None
 

@@ -13,8 +13,8 @@ class State:
 # Takes a list of Inputs to move from State to
 # State using a template method.
 class StateMachine:
-    def __init__(self, initialstate):
-        self.currentState = initialstate
+    def __init__(self, initialState):
+        self.currentState = initialState
         self.currentState.run()
 
     # Template method:

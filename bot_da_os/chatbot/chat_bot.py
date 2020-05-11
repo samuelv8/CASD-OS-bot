@@ -1,8 +1,7 @@
+from bot_da_os.statemachine.state import StateMachine, State
+from bot_da_os.statemachine.person.person_action import PersonAction
 import sys
-# sys.path += ['..']
-
-from .. import State
-from ..person import PersonAction
+sys.path += ['../statemachine', '../person']
 
 
 class Waiting(State):
@@ -10,7 +9,7 @@ class Waiting(State):
         print("Waiting: Waiting for request")
 
     def next(self, input):
-        if input == PersonAction.query:
+        if input == PersonAction.query:  # query should be a PersonAction method/attribute
             return ChatBot.processing
         return ChatBot.waiting
 
@@ -55,5 +54,5 @@ ChatBot.processing = Processing()
 ChatBot.tracking = Tracking()
 
 
-moves = map(str.strip, open("../person/PersonMoves.txt").readlines())
+moves = map(str.strip, open("../statemachine/person/person_moves.txt").readlines())
 ChatBot().run_all(map(PersonAction, moves))
