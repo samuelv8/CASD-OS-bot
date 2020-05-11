@@ -1,18 +1,23 @@
 from .. import State
-from ..mouse import MouseAction
+from ..person import PersonAction
 # A better mousetrap using tables
 import string, sys
 sys.path += ['../stateMachine', '../mouse']
 
 
+# TEMPLATE!!!
+
+
 class StateT(State):
     def __init__(self):
         self.transitions = None
+
     def next(self, input):
         if self.transitions.has_key(input):
             return self.transitions[input]
         else:
-            raise "Input not supported for current state"
+            raise Exception("Input not supported for current state")
+
 
 class Waiting(StateT):
     def run(self):
@@ -24,6 +29,7 @@ class Waiting(StateT):
               MouseAction.appears : MouseTrap.luring
             }
         return StateT.next(self, input)
+
 
 class Luring(StateT):
     def run(self):
@@ -37,6 +43,7 @@ class Luring(StateT):
             }
         return StateT.next(self, input)
 
+
 class Trapping(StateT):
     def run(self):
         print("Trapping: Closing door")
@@ -49,6 +56,7 @@ class Trapping(StateT):
             }
         return StateT.next(self, input)
 
+
 class Holding(StateT):
     def run(self):
         print("Holding: Mouse caught")
@@ -59,6 +67,7 @@ class Holding(StateT):
               MouseAction.removed : MouseTrap.waiting
             }
         return StateT.next(self, input)
+
 
 class MouseTrap(StateMachine):
     def __init__(self):
