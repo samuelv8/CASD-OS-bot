@@ -11,7 +11,7 @@ class Waiting(State):
         print("Waiting: Waiting for request")
 
     def next(self, input):
-        if input == PersonAction.compliment:
+        if input == PersonAction.compliment or input == PersonAction.angry:
             return ChatBot.processing
         return ChatBot.waiting
 
