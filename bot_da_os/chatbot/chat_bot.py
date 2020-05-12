@@ -57,4 +57,8 @@ ChatBot.tracking = Tracking()
 
 
 moves = map(str.strip, open("../statemachine/person/person_moves.txt").readlines())
+<<<<<<< HEAD
 ChatBot().run_all(map(PersonAction, moves))
+=======
+ChatBot().run_all(map(person_action, moves))
+>>>>>>> 70975ae78dfe0195cbc167fc978b2aadc4f8860d

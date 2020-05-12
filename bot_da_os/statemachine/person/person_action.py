@@ -4,10 +4,6 @@ class PersonAction:
 
     def __str__(self): return self.action
 
-    # -- not working --
-    # def __cmp__(self, other):
-    #    return cmp(self.action, other.action)
-
     # Necessary when __cmp__ or __eq__ is defined
     # in order to make this class usable as a
     # dictionary key:
