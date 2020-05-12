@@ -1,4 +1,5 @@
-from bot_da_os.statemachine.state import StateMachine, State
+from bot_da_os.statemachine.state import State
+from bot_da_os.statemachine.state_machine import StateMachine
 from bot_da_os.statemachine.person import person_action
 
 import sys
