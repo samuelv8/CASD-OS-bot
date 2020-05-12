@@ -1,3 +1,4 @@
+from bot_da_os.statemachine.person.person_action import PersonAction
 from bot_da_os.statemachine.state import State
 from bot_da_os.statemachine.state_machine import StateMachine
 from bot_da_os.statemachine.person import person_action
@@ -11,7 +12,7 @@ class Waiting(State):
         print("Waiting: Waiting for request")
 
     def next(self, input):
-        if input == person_action.query:
+        if input == PersonAction.compliment:
             return ChatBot.processing
         return ChatBot.waiting
 
@@ -57,4 +58,4 @@ ChatBot.tracking = Tracking()
 
 
 moves = map(str.strip, open("../statemachine/person/person_moves.txt").readlines())
-ChatBot().run_all(map(person_action, moves))
+ChatBot().run_all(map(PersonAction, moves))
