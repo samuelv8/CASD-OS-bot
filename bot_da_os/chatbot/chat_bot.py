@@ -1,7 +1,6 @@
 from bot_da_os.statemachine.person.person_action import PersonAction
 from bot_da_os.statemachine.state import State
 from bot_da_os.statemachine.state_machine import StateMachine
-from bot_da_os.statemachine.person import person_action
 
 import sys
 sys.path += ['../statemachine', '../person']

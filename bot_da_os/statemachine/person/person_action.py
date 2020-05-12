@@ -21,4 +21,4 @@ class PersonAction:
 PersonAction.compliment = PersonAction("person compliments")
 PersonAction.informing = PersonAction("person gives information about the service order")
 PersonAction.query = PersonAction("person wants to know about his/her order")
-PersonAction.grrr = PersonAction("person is pissed off")
+PersonAction.angry = PersonAction("person is pissed off")
