@@ -2,12 +2,9 @@
 # into the next State given an Input:
 
 class State:
-    def run(self):
+    def run(self, first=True):
         assert 0, "run not implemented"
 
-    def next(self, input):
+    def next(self, inputs):
         assert 0, "next not implemented"
 
-# Should this class be here?
-class StateMachine:
-    pass

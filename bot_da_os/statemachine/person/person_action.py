@@ -18,7 +18,10 @@ class PersonAction:
 
 
 # Static fields; an enumeration of instances:
-PersonAction.compliment = PersonAction("person compliments")
-PersonAction.informing = PersonAction("person gives information about the service order")
+PersonAction.greet = PersonAction("person greets")
+PersonAction.request = PersonAction("person makes a request")
+PersonAction.informing = PersonAction("person gives personal information")
+PersonAction.briefing = PersonAction("person explains the problem")
 PersonAction.query = PersonAction("person wants to know about his/her order")
 PersonAction.angry = PersonAction("person is pissed off")
+PersonAction.thanks = PersonAction("person thanks")
