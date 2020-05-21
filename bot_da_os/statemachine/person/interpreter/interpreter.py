@@ -11,8 +11,25 @@ def person_interpreter(message: str, state) -> tuple:
     words = nltk.word_tokenize(msg)
     if state.__class__.__name__ == "Waiting":
         re.search("", words)
+        return message, None
     elif state.__class__.__name__ == "Processing":
         re.search("", words)
+        return message, None
     elif state.__class__.__name__ == "Tracking":
         re.search("", words)
-    return message, None
+        return message, None
+    elif state.__class__.__name__ == "ReceivingName":
+        re.search("", words)
+        return message, None
+    elif state.__class__.__name__ == "ReceivingApartment":
+        re.search("", words)
+        return message, None
+    elif state.__class__.__name__ == "ReceivingRoom":
+        re.search("", words)
+        return message, None
+    elif state.__class__.__name__ == "ReceivingProblemType":
+        re.search("", words)
+        return message, None
+    elif state.__class__.__name__ == "ReceivingDescription":
+        return message, None
+
