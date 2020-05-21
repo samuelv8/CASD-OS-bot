@@ -65,6 +65,24 @@ class ReceivingApartment(State):
         print('it did not work, try again something like: "222 D"')
         return ChatBot.receiving_apartment
 
+class ReceivingProblemType(State):
+    def run(self, first=True):
+        if first:
+            print("-- Can you tell me the nature of your problem?")
+        print("\t[ReceivingProblemType: Receiving Problem Type]")
+
+    @staticmethod
+    def store(inputs):
+        # here check if it has all the information
+        if inputs == PersonAction.problem_type:
+            return True
+        return False
+
+    def next(self, inputs, info=None):
+        if ReceivingApartment.store(inputs):
+            return ChatBot.ReceivingProblemDescription
+        print('it did not work, try again something like: " Ap eletrica / Ap Geral /Ambientes comuns "')
+        return ChatBot.receiving_problem_type
 
 class ReceivingRoom(State):
     def run(self, first=True):
@@ -80,7 +98,7 @@ class ReceivingRoom(State):
         return False
 
     def next(self, inputs, info=None):
-        if ReceivingType.store(inputs):
+        if store(inputs):
             return ChatBot.receiving_apartment
         print('it did not work, try again something like: "cozinha"')
         return ChatBot.receiving_room
@@ -143,6 +161,7 @@ ChatBot.receiving_room = ReceivingRoom()
 ChatBot.receiving_apartment = ReceivingApartment()
 ChatBot.receiving_description = ReceivingDescription()
 ChatBot.receiving_name = ReceivingName()
+ChatBot.receiving_problem_type = ReceivingProblemType()
 
 moves = map(str.strip, open("../statemachine/person/person_moves.txt").readlines())
 ChatBot().run_all(map(PersonAction, moves))
