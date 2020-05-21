@@ -12,7 +12,7 @@ sys.path += ['../statemachine', '../person']
 
 class Waiting(State):
     def run(self, first=True):
-        print("        [Waiting: Waiting for request]")
+        print("\t[Waiting: Waiting for request]")
 
     def next(self, inputs, info=None):
         if inputs == PersonAction.request or inputs == PersonAction.informing:
@@ -23,12 +23,30 @@ class Waiting(State):
             print("-- You're welcome! #ocasdnaopara")
         return ChatBot.waiting
 
+class ReceivingName(State):
+    def run(self, first=True):
+        if first:
+            print("-- Can you tell me your name?")
+        print("\t[ReceivingName: Receiving name]")
+
+    @staticmethod
+    def store(inputs):
+        # here check if it has all the information
+        if inputs == PersonAction.name:
+            return True
+        return False
+
+    def next(self, inputs, info=None):
+        if ReceivingName.store(inputs):
+            return ChatBot.ReceivingApartment
+        print('it did not work, try again something like: "Fulano Silva"')
+        return ChatBot.ReceivingName
 
 class Processing(State):
     def run(self, first=True):
         if first:
             print("-- Can you tell me the information bla bla?")
-        print("        [Processing: Receiving information]")
+        print("\t[Processing: Receiving information]")
 
     @staticmethod
     def store(inputs):
@@ -49,7 +67,7 @@ class Tracking(State):
     def run(self, first=True):
         if first:
             print("-- Okay, your request was recorded. If you want to know about it's status, tell me! ;)")
-        print("        [Tracking: Order sent, following it]")
+        print("\t[Tracking: Order sent, following it]")
 
     @staticmethod
     def status():
@@ -64,7 +82,7 @@ class Tracking(State):
                 print("-- Your order is done!")
                 return ChatBot.waiting
             else:
-                print(f'Your order is in position {n} of the list')
+                print(f'Your order is in position {0} of the list'.format(n))
 
         return ChatBot.tracking
 
@@ -83,6 +101,6 @@ ChatBot.tracking = Tracking()
 
 moves = map(str.strip, open("../statemachine/person/person_moves.txt").readlines())
 ChatBot().run_all(map(PersonAction, moves))
-print("############################################################################")
+print("#" * 76)
 moves = map(str.strip, open("../statemachine/person/person_moves2.txt").readlines())
 ChatBot().run_all(map(PersonAction, moves))
