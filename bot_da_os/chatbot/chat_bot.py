@@ -60,7 +60,25 @@ class ReceivingApartment(State):
             return ChatBot.ReceivingApartment
         print('it did not work, try again something like: "222 D"')
         return ChatBot.ReceivingApartment
-    
+
+class ReceivingProblemType(State):
+    def run(self, first=True):
+        if first:
+            print("-- Can you tell me the nature of your problem?")
+        print("\t[ReceivingProblemType: Receiving Problem Type]")
+
+    @staticmethod
+    def store(inputs):
+        # here check if it has all the information
+        if inputs == PersonAction.problem_type:
+            return True
+        return False
+
+    def next(self, inputs, info=None):
+        if ReceivingApartment.store(inputs):
+            return ChatBot.ReceivingProblemDescription
+        print('it did not work, try again something like: " Ap eletrica / Ap Geral /Ambientes comuns "')
+        return ChatBot.ReceivingProblemType
 
 class Processing(State):
     def run(self, first=True):
