@@ -19,17 +19,18 @@ def person_interpreter(message: str, state) -> tuple:
         re.search("", words)
         return message, None
     elif state.__class__.__name__ == "ReceivingName":
-        re.search("", words)
-        return message, None
+        return "name", msg
     elif state.__class__.__name__ == "ReceivingApartment":
-        re.search("", words)
-        return message, None
-    elif state.__class__.__name__ == "ReceivingRoom":
-        re.search("", words)
-        return message, None
+        #lista de Aps e vagas
+        Apartment = []
+        for word in words:
+            Apartment.append(re.search(r'(\d+).*(\w)', word))
+        return message, Apartment
     elif state.__class__.__name__ == "ReceivingProblemType":
+        #lista de tipos
         re.search("", words)
         return message, None
     elif state.__class__.__name__ == "ReceivingDescription":
+
         return message, None
 

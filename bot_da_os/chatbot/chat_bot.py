@@ -8,7 +8,9 @@ sys.path += ['../statemachine', '../person']
 # NOTES:
 # -'next' methods must be updated!
 # -need more classes
-
+# -fix contradiction between state_machine and chat_bot
+# -actually store the information obtained in interpreter
+# -connect person_action to interpreter and chat_bot
 
 class Waiting(State):
     def run(self, first=True):
