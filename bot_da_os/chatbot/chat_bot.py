@@ -155,7 +155,6 @@ class ChatBot(StateMachine):
 
 # Static variable initialization:
 ChatBot.waiting = Waiting()
-ChatBot.processing = Processing()
 ChatBot.tracking = Tracking()
 ChatBot.receiving_room = ReceivingRoom()
 ChatBot.receiving_apartment = ReceivingApartment()
