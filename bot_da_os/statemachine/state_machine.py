@@ -12,7 +12,7 @@ class StateMachine:
     def run_all(self, inputs):
         for i in inputs:
             print(i)
-            t, info = person_interpreter(i)  # 't' is the type, 'info' is useful information (can be None)
+            t, info = person_interpreter(i, self.current_state)  # 't' is the type, 'info' is useful information
             first = True
             new = self.current_state.next(t, info)
             if new == self.current_state:
