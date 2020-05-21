@@ -22,6 +22,7 @@ PersonAction.status = PersonAction("person wants to know the status of his/her o
 PersonAction.name = PersonAction("person tells his/her name")
 PersonAction.apartment = PersonAction("person tells his/her apartment number")
 PersonAction.spot = PersonAction("person tells his/her spot letter")
+PersonAction.problem_room = PersonAction("problem room")
 PersonAction.problem_type = PersonAction("person classifies his/her problem")
 PersonAction.problem_description = PersonAction("person describes his/her problem")
 PersonAction.feedback = PersonAction("person gives his/her feedback")
