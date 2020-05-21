@@ -3,7 +3,9 @@ from bot_da_os.statemachine.state import State
 from bot_da_os.statemachine.state_machine import StateMachine
 from random import randint
 import sys
+
 sys.path += ['../statemachine', '../person']
+
 
 # NOTES:
 # -'next' methods must be updated!
@@ -25,6 +27,7 @@ class Waiting(State):
             print("-- You're welcome! #ocasdnaopara")
         return ChatBot.waiting
 
+
 class ReceivingName(State):
     def run(self, first=True):
         if first:
@@ -40,9 +43,10 @@ class ReceivingName(State):
 
     def next(self, inputs, info=None):
         if ReceivingName.store(inputs):
-            return ChatBot.ReceivingApartment
+            return ChatBot.receiving_apartment
         print('it did not work, try again something like: "Fulano Silva"')
-        return ChatBot.ReceivingName
+        return ChatBot.receiving_name
+
 
 class ReceivingApartment(State):
     def run(self, first=True):
@@ -59,9 +63,9 @@ class ReceivingApartment(State):
 
     def next(self, inputs, info=None):
         if ReceivingApartment.store(inputs):
-            return ChatBot.ReceivingApartment
+            return ChatBot.receiving_room
         print('it did not work, try again something like: "222 D"')
-        return ChatBot.ReceivingApartment
+        return ChatBot.receiving_apartment
 
 class ReceivingProblemType(State):
     def run(self, first=True):
@@ -80,20 +84,38 @@ class ReceivingProblemType(State):
         if ReceivingApartment.store(inputs):
             return ChatBot.ReceivingProblemDescription
         print('it did not work, try again something like: " Ap eletrica / Ap Geral /Ambientes comuns "')
-        return ChatBot.ReceivingProblemType
+        return ChatBot.receiving_problem_type
 
-class Processing(State):
+class ReceivingRoom(State):
     def run(self, first=True):
         if first:
-            print("-- Can you tell me the information bla bla?")
+            print("-- Can you tell me in what room is the problem located?")
+        print("\t[ReceivingRoom: Receiving Room]")
+
+    @staticmethod
+    def store(inputs):
+        # here check if it has all the information
+        if inputs == PersonAction.problem_room:
+            return True
+        return False
+
+    def next(self, inputs, info=None):
+        if store(inputs):
+            return ChatBot.receiving_apartment
+        print('it did not work, try again something like: "cozinha"')
+        return ChatBot.receiving_room
+
+
+class ReceivingDescription(State):
+    def run(self, first=True):
+        if first:
+            print("-- Can you brief the problem?")
         print("\t[Processing: Receiving information]")
 
     @staticmethod
     def store(inputs):
         # here check if it has all the information
-        if inputs == PersonAction.informing:
-            print("-- Can you brief the problem?")
-        elif inputs == PersonAction.briefing:
+        if inputs == PersonAction.problem_description:
             return True
         return False
 
@@ -135,9 +157,12 @@ class ChatBot(StateMachine):
 
 # Static variable initialization:
 ChatBot.waiting = Waiting()
-ChatBot.processing = Processing()
 ChatBot.tracking = Tracking()
-
+ChatBot.receiving_room = ReceivingRoom()
+ChatBot.receiving_apartment = ReceivingApartment()
+ChatBot.receiving_description = ReceivingDescription()
+ChatBot.receiving_name = ReceivingName()
+ChatBot.receiving_problem_type = ReceivingProblemType()
 
 moves = map(str.strip, open("../statemachine/person/person_moves.txt").readlines())
 ChatBot().run_all(map(PersonAction, moves))
