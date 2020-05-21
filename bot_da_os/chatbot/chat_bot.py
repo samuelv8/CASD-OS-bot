@@ -100,7 +100,7 @@ class ReceivingRoom(State):
         return False
 
     def next(self, inputs, info=None):
-        if store(inputs):
+        if ReceivingRoom.store(inputs):
             return ChatBot.receiving_apartment
         print('it did not work, try again something like: "cozinha"')
         return ChatBot.receiving_room
