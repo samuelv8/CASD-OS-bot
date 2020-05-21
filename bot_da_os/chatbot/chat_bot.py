@@ -42,6 +42,26 @@ class ReceivingName(State):
         print('it did not work, try again something like: "Fulano Silva"')
         return ChatBot.ReceivingName
 
+class ReceivingApartment(State):
+    def run(self, first=True):
+        if first:
+            print("-- Can you tell me your apartment number and your spot letter?")
+        print("\t[ReceivingApartment: Receiving Apartment]")
+
+    @staticmethod
+    def store(inputs):
+        # here check if it has all the information
+        if inputs == PersonAction.apartment:
+            return True
+        return False
+
+    def next(self, inputs, info=None):
+        if ReceivingApartment.store(inputs):
+            return ChatBot.ReceivingApartment
+        print('it did not work, try again something like: "222 D"')
+        return ChatBot.ReceivingApartment
+    
+
 class Processing(State):
     def run(self, first=True):
         if first:
