@@ -2,7 +2,8 @@
 
 import re
 import nltk
-import string
+# import string
+
 
 # function will receive a message string and return a tuple (message_type, info)
 def person_interpreter(message: str, state) -> tuple:
@@ -21,13 +22,13 @@ def person_interpreter(message: str, state) -> tuple:
     elif state.__class__.__name__ == "ReceivingName":
         return "name", msg
     elif state.__class__.__name__ == "ReceivingApartment":
-        #lista de Aps e vagas
-        Apartment = []
+        # lista de Aps e vagas
+        apartment = []
         for word in words:
-            Apartment.append(re.search(r'(\d+).*(\w)', word))
-        return message, Apartment
+            apartment.append(re.search(r'(\d+).*(\w)', word))
+        return message, apartment
     elif state.__class__.__name__ == "ReceivingProblemType":
-        #lista de tipos
+        # lista de tipos
         re.search("", words)
         return message, None
     elif state.__class__.__name__ == "ReceivingDescription":

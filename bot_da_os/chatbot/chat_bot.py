@@ -20,7 +20,7 @@ class Waiting(State):
 
     def next(self, inputs, info=None):
         if inputs == PersonAction.request or inputs == PersonAction.informing:
-            return ChatBot.processing
+            return ChatBot.receiving_name
         elif inputs == PersonAction.greet or inputs == PersonAction.angry:
             print("-- Hi! How can I help you?")
         elif inputs == PersonAction.thanks:
@@ -67,6 +67,7 @@ class ReceivingApartment(State):
         print('it did not work, try again something like: "222 D"')
         return ChatBot.receiving_apartment
 
+
 class ReceivingProblemType(State):
     def run(self, first=True):
         if first:
@@ -82,9 +83,10 @@ class ReceivingProblemType(State):
 
     def next(self, inputs, info=None):
         if ReceivingApartment.store(inputs):
-            return ChatBot.ReceivingProblemDescription
+            return ChatBot.receiving_room
         print('it did not work, try again something like: " Ap eletrica / Ap Geral /Ambientes comuns "')
         return ChatBot.receiving_problem_type
+
 
 class ReceivingRoom(State):
     def run(self, first=True):
@@ -120,9 +122,9 @@ class ReceivingDescription(State):
         return False
 
     def next(self, inputs, info=None):
-        if Processing.store(inputs):
+        if ReceivingDescription.store(inputs):
             return ChatBot.tracking
-        return ChatBot.processing
+        return ChatBot.receiving_description
 
 
 class Tracking(State):
