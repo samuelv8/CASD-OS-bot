@@ -1,25 +1,21 @@
 from bot_da_os.statemachine.person.person_action import PersonAction
-from bot_da_os.statemachine.state import State
+from bot_da_os.statemachine.state import State, NonInputState
 from bot_da_os.statemachine.state_machine import StateMachine
 from random import randint
 import sys
 
 sys.path += ['../statemachine', '../person']
 
-
 # NOTES:
-# -'next' methods must be updated!
-# -need more classes
-# -fix contradiction between state_machine and chat_bot
-# -actually store the information obtained in interpreter
-# -connect person_action to interpreter and chat_bot
+# -need to actually store the information obtained in interpreter
+
 
 class Waiting(State):
     def run(self, first=True):
         print("\t[Waiting: Waiting for request]")
 
     def next(self, inputs, info=None):
-        if inputs == PersonAction.request or inputs == PersonAction.informing:
+        if inputs == PersonAction.request:
             return ChatBot.receiving_name
         elif inputs == PersonAction.greet or inputs == PersonAction.angry:
             print("-- Hi! How can I help you?")
@@ -44,7 +40,7 @@ class ReceivingName(State):
     def next(self, inputs, info=None):
         if ReceivingName.store(inputs):
             return ChatBot.receiving_apartment
-        print('it did not work, try again something like: "Fulano Silva"')
+        print('-- It did not work, try again something like: "Fulano Silva"')
         return ChatBot.receiving_name
 
 
@@ -64,28 +60,8 @@ class ReceivingApartment(State):
     def next(self, inputs, info=None):
         if ReceivingApartment.store(inputs):
             return ChatBot.receiving_room
-        print('it did not work, try again something like: "222 D"')
+        print('-- It did not work, try again something like: "222 D"')
         return ChatBot.receiving_apartment
-
-
-class ReceivingProblemType(State):
-    def run(self, first=True):
-        if first:
-            print("-- Can you tell me the nature of your problem?")
-        print("\t[ReceivingProblemType: Receiving Problem Type]")
-
-    @staticmethod
-    def store(inputs):
-        # here check if it has all the information
-        if inputs == PersonAction.problem_type:
-            return True
-        return False
-
-    def next(self, inputs, info=None):
-        if ReceivingApartment.store(inputs):
-            return ChatBot.receiving_room
-        print('it did not work, try again something like: " Ap eletrica / Ap Geral /Ambientes comuns "')
-        return ChatBot.receiving_problem_type
 
 
 class ReceivingRoom(State):
@@ -103,16 +79,36 @@ class ReceivingRoom(State):
 
     def next(self, inputs, info=None):
         if ReceivingRoom.store(inputs):
-            return ChatBot.receiving_apartment
-        print('it did not work, try again something like: "cozinha"')
+            return ChatBot.receiving_problem_type
+        print('-- It did not work, try again something like: "Cozinha"')
         return ChatBot.receiving_room
+
+
+class ReceivingProblemType(State):  # we could skip this state -- samuel
+    def run(self, first=True):
+        if first:
+            print("-- Can you tell me the nature of your problem?")
+        print("\t[ReceivingProblemType: Receiving Problem Type]")
+
+    @staticmethod
+    def store(inputs):
+        # here check if it has all the information
+        if inputs == PersonAction.problem_type:
+            return True
+        return False
+
+    def next(self, inputs, info=None):
+        if ReceivingProblemType.store(inputs):
+            return ChatBot.receiving_description
+        print('-- It did not work, try again something like: " Ap eletrica / Ap Geral /Ambientes comuns "')
+        return ChatBot.receiving_problem_type
 
 
 class ReceivingDescription(State):
     def run(self, first=True):
         if first:
             print("-- Can you brief the problem?")
-        print("\t[Processing: Receiving information]")
+        print("\t[Receiving Description: Receiving description]")
 
     @staticmethod
     def store(inputs):
@@ -133,22 +129,39 @@ class Tracking(State):
             print("-- Okay, your request was recorded. If you want to know about it's status, tell me! ;)")
         print("\t[Tracking: Order sent, following it]")
 
+    def next(self, inputs, info=None):
+        if inputs == PersonAction.status or inputs == PersonAction.angry:
+            return ChatBot.verifying
+        return ChatBot.tracking
+
+
+class Verifying(NonInputState):
+    def run(self, first=True):
+        print("\t[Verifying: Checking the database]")
+
     @staticmethod
     def status():
         # here communicates with the db
-        n = randint(0, 10)
+        n = randint(0, 1)
         return n
 
-    def next(self, inputs, info=None):
-        if inputs == PersonAction.query or inputs == PersonAction.angry:
-            n = Tracking.status()
-            if not n:
-                print("-- Your order is done!")
-                return ChatBot.waiting
-            else:
-                print(f'Your order is in position {0} of the list'.format(n))
+    def next(self, info=None):
+        n = Verifying.status()
+        if n <= 0:
+            print("-- Your order is done!")
+            return ChatBot.finishing
+        else:
+            print(f'Your order is in position {n} of the list')
+            return ChatBot.tracking
 
-        return ChatBot.tracking
+
+class Finishing(NonInputState):
+    def run(self, first=True):
+        print("-- Could you fill out this form to give us a feedback? <link>")
+        print("\t[Finishing: service done, requesting feedback]")
+
+    def next(self, info=None):
+        return ChatBot.waiting
 
 
 class ChatBot(StateMachine):
@@ -165,9 +178,11 @@ ChatBot.receiving_apartment = ReceivingApartment()
 ChatBot.receiving_description = ReceivingDescription()
 ChatBot.receiving_name = ReceivingName()
 ChatBot.receiving_problem_type = ReceivingProblemType()
+ChatBot.verifying = Verifying()
+ChatBot.finishing = Finishing()
 
 moves = map(str.strip, open("../statemachine/person/person_moves.txt").readlines())
 ChatBot().run_all(map(PersonAction, moves))
-print("#" * 76)
-moves = map(str.strip, open("../statemachine/person/person_moves2.txt").readlines())
-ChatBot().run_all(map(PersonAction, moves))
+# print("#" * 76)
+# moves = map(str.strip, open("../statemachine/person/person_moves2.txt").readlines())
+# ChatBot().run_all(map(PersonAction, moves))

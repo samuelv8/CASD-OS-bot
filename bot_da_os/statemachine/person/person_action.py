@@ -18,13 +18,15 @@ class PersonAction:
 
 
 # Static fields; an enumeration of instances:
-PersonAction.status = PersonAction("person wants to know the status of his/her order")
+PersonAction.greet = PersonAction("person greets")
+PersonAction.request = PersonAction("person makes a request")
 PersonAction.name = PersonAction("person tells his/her name")
-PersonAction.apartment = PersonAction("person tells his/her apartment number")
-PersonAction.spot = PersonAction("person tells his/her spot letter")
-PersonAction.problem_room = PersonAction("problem room")
+PersonAction.apartment = PersonAction("person tells his/her apartment and spot")
 PersonAction.problem_type = PersonAction("person classifies his/her problem")
+PersonAction.problem_room = PersonAction("person tells problem room")
 PersonAction.problem_description = PersonAction("person describes his/her problem")
+PersonAction.status = PersonAction("person wants to know the status of his/her order")
 PersonAction.feedback = PersonAction("person gives his/her feedback")
+PersonAction.thanks = PersonAction("person thanks")
 PersonAction.angry = PersonAction("person is pissed off")
 PersonAction.undefined = PersonAction("person does something else")

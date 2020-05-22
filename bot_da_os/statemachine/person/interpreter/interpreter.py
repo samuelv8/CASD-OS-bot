@@ -1,37 +1,37 @@
 # module to process the natural language
 
-import re
-import nltk
+# import re
+# import nltk
 # import string
 
 
 # function will receive a message string and return a tuple (message_type, info)
 def person_interpreter(message: str, state) -> tuple:
-    # print(state.__class__.__name__) use this to see the class name
-    msg = message.lower()
-    words = nltk.word_tokenize(msg)
-    if state.__class__.__name__ == "Waiting":
-        re.search("", words)
+    # print(state)  # use this to see the class name
+    # msg = message.lower()
+    # words = nltk.word_tokenize(msg)
+    if state == "Waiting":
+        # re.search("", words)
         return message, None
-    elif state.__class__.__name__ == "Processing":
-        re.search("", words)
+    elif state == "ReceivingName":
         return message, None
-    elif state.__class__.__name__ == "Tracking":
-        re.search("", words)
+    elif state == "ReceivingApartment":
+        # lista de Aps e vagas  # wut? -- samuel
+        # apartment = []
+        # for word in words:
+        #     apartment.append(re.search(r'(\d+).*(\w)', word))
         return message, None
-    elif state.__class__.__name__ == "ReceivingName":
-        return "name", msg
-    elif state.__class__.__name__ == "ReceivingApartment":
-        # lista de Aps e vagas
-        apartment = []
-        for word in words:
-            apartment.append(re.search(r'(\d+).*(\w)', word))
-        return message, apartment
-    elif state.__class__.__name__ == "ReceivingProblemType":
+    elif state == "ReceivingProblemType":
         # lista de tipos
-        re.search("", words)
+        # re.search("", words)
         return message, None
-    elif state.__class__.__name__ == "ReceivingDescription":
-
+    elif state == "ReceivingRoom":
         return message, None
-
+    elif state == "ReceivingDescription":
+        return message, None
+    elif state == "Tracking":
+        return message, None
+    elif state == "Finishing":
+        return message, None
+    else:
+        return message, None

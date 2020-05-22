@@ -1,6 +1,7 @@
 # Takes a list of Inputs to move from State to
 # State using a template method.
 from .person.interpreter.interpreter import person_interpreter
+from .state import NonInputState
 
 
 class StateMachine:
@@ -8,14 +9,17 @@ class StateMachine:
         self.current_state = initial_state
         self.current_state.run()
 
-    # Template method:
     def run_all(self, inputs):
         for i in inputs:
             print(i)
-            t, info = person_interpreter(i, self.current_state)  # 't' is the type, 'info' is useful information
+            s = self.current_state.__class__.__name__
+            t, info = person_interpreter(i, s)  # 't' is the type, 'info' is useful information (can ben None)
             first = True
             new = self.current_state.next(t, info)
             if new == self.current_state:
                 first = False
             self.current_state = new
             self.current_state.run(first)
+            while issubclass(self.current_state.__class__, NonInputState):  # runs the loop again without inputs
+                self.current_state = self.current_state.next()
+                self.current_state.run(False)
