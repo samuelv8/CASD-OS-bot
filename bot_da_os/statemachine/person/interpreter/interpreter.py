@@ -1,17 +1,23 @@
 # module to process the natural language
 
-# import re
+import re
 # import nltk
 # import string
 
 
 # function will receive a message string and return a tuple (message_type, info)
-def person_interpreter(message: str, state) -> tuple:
-    # print(state)  # use this to see the class name
-    # msg = message.lower()
+def person_interpreter(message: object, state: str) -> tuple:
+    msg = message.__str__().lower()
+    # print(msg)
     # words = nltk.word_tokenize(msg)
     if state == "Waiting":
-        # re.search("", words)
+        if re.search(r'^(oi)$', msg):
+            message.action = 'greet'
+        elif re.search(r'^(quero).*$', msg):
+            message.action = 'request'
+        else:
+            message.action = 'unknown'
+        print(message)
         return message, None
     elif state == "ReceivingName":
         return message, None

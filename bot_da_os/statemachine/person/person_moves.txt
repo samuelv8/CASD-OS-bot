@@ -1,10 +1,10 @@
-person greets
-person makes a request
-person tells his/her name
-person tells his/her apartment and spot
-person tells problem room
-person classifies his/her problem
-person describes his/her problem
-person wants to know the status of his/her order
-person wants to know the status of his/her order
-person thanks
+Oi
+Quero fazer uma os
+name
+apartment
+proom
+ptype
+pdescr
+status
+status
+thanks
