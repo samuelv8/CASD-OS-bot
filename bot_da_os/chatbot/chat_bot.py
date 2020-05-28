@@ -69,7 +69,7 @@ class ReceivingApartment(State):
 class ReceivingRoom(State):
     def run(self, first=True):
         if first:
-            print("-- Em qual cômodo está o problema?")
+            print("-- Em qual cômodo/ambiente está o problema?")
         print("\t[ReceivingRoom: Receiving Room]")
 
     @staticmethod
@@ -82,7 +82,7 @@ class ReceivingRoom(State):
     def next(self, inputs, info=None):
         if ReceivingRoom.store(inputs):
             return ChatBot.receiving_problem_type
-        print('-- Não entendi. Tente de novo algo do tipo: "Cozinha"')
+        print('-- Não entendi. Tente de novo algo do tipo: "Cozinha" ou "Hall do B"')
         return ChatBot.receiving_room
 
 
@@ -102,7 +102,7 @@ class ReceivingProblemType(State):  # we could skip this state -- samuel
     def next(self, inputs, info=None):
         if ReceivingProblemType.store(inputs):
             return ChatBot.receiving_description
-        print('-- Não entendi. Tente de novo algo do tipo: "Elétrica" ou "Ambientes comuns"')
+        print('-- Não entendi. Tente de novo algo do tipo: "Elétrica" ou "Vazamento"')
         return ChatBot.receiving_problem_type
 
 
@@ -144,7 +144,7 @@ class Verifying(NonInputState):
     @staticmethod
     def status():
         # here communicates with the db
-        n = randint(0, 1)
+        n = randint(0, 2)
         return n
 
     def next(self, info=None):

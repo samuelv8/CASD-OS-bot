@@ -42,12 +42,26 @@ def person_interpreter(message: object, state: str) -> tuple:
             message.action = 'unknown'
         return message, apartment
 
-    elif state == "ReceivingProblemType":
-        # lista de tipos
-        # re.search("", words)
+    elif state == "ReceivingRoom":
+        prob_room = re.search(r'^.*(quarto|vaga|cozinha|banheiro|apartamento|ap|sarcófago).*$', msg)
+        if prob_room:
+            message.action = 'proom'
+            return message, prob_room.group(0)
+        else:
+            # prob_room = re.search(r'^.*(hall[abc]|corredor).*$', msg)
+            # if prob_room:
+            message.action = 'unknown'
         return message, None
 
-    elif state == "ReceivingRoom":
+    elif state == "ReceivingProblemType":
+        # lista de tipos
+        prob_type = re.search(r'^.*(elétrico|encanamento|geral|mofo|estrutura|cama|infiltração|vazamento|porta'
+                              r'|janela|piso|mesa|lâmpada|chuveiro|parede).*$', msg)
+        if prob_type:
+            message.action = 'ptype'
+            return message, prob_type.group(0)
+        else:
+            message.action = 'unknown'
         return message, None
 
     elif state == "ReceivingDescription":
