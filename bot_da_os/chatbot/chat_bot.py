@@ -18,16 +18,18 @@ class Waiting(State):
         if inputs == PersonAction.request:
             return ChatBot.receiving_name
         elif inputs == PersonAction.greet or inputs == PersonAction.angry:
-            print("-- Hi! How can I help you?")
+            print("-- Oi! Como posso ajudar você?")
         elif inputs == PersonAction.thanks:
-            print("-- You're welcome! #ocasdnaopara")
+            print("-- De nada! #ocasdnaopara")
+        elif inputs == PersonAction.unknown:
+            print("-- Olá! Gostaria de solicitar um serviço?")
         return ChatBot.waiting
 
 
 class ReceivingName(State):
     def run(self, first=True):
         if first:
-            print("-- Can you tell me your name?")
+            print("-- Pode me dizer o seu nome e sobrenome?")
         print("\t[ReceivingName: Receiving name]")
 
     @staticmethod
@@ -40,14 +42,14 @@ class ReceivingName(State):
     def next(self, inputs, info=None):
         if ReceivingName.store(inputs):
             return ChatBot.receiving_apartment
-        print('-- It did not work, try again something like: "Fulano Silva"')
+        print('-- Não entendi. Tente de novo algo do tipo: "Fulano Silva"')
         return ChatBot.receiving_name
 
 
 class ReceivingApartment(State):
     def run(self, first=True):
         if first:
-            print("-- Can you tell me your apartment number and your spot letter?")
+            print("-- Pode me passar qual seu apartamento e sua vaga?")
         print("\t[ReceivingApartment: Receiving Apartment]")
 
     @staticmethod
@@ -60,14 +62,14 @@ class ReceivingApartment(State):
     def next(self, inputs, info=None):
         if ReceivingApartment.store(inputs):
             return ChatBot.receiving_room
-        print('-- It did not work, try again something like: "222 D"')
+        print('-- Não entendi. Tente de novo algo do tipo: "222 D"')
         return ChatBot.receiving_apartment
 
 
 class ReceivingRoom(State):
     def run(self, first=True):
         if first:
-            print("-- Can you tell me in what room is the problem located?")
+            print("-- Em qual cômodo está o problema?")
         print("\t[ReceivingRoom: Receiving Room]")
 
     @staticmethod
@@ -80,14 +82,14 @@ class ReceivingRoom(State):
     def next(self, inputs, info=None):
         if ReceivingRoom.store(inputs):
             return ChatBot.receiving_problem_type
-        print('-- It did not work, try again something like: "Cozinha"')
+        print('-- Não entendi. Tente de novo algo do tipo: "Cozinha"')
         return ChatBot.receiving_room
 
 
 class ReceivingProblemType(State):  # we could skip this state -- samuel
     def run(self, first=True):
         if first:
-            print("-- Can you tell me the nature of your problem?")
+            print("-- Qual o tipo do problema?")
         print("\t[ReceivingProblemType: Receiving Problem Type]")
 
     @staticmethod
@@ -100,14 +102,14 @@ class ReceivingProblemType(State):  # we could skip this state -- samuel
     def next(self, inputs, info=None):
         if ReceivingProblemType.store(inputs):
             return ChatBot.receiving_description
-        print('-- It did not work, try again something like: " Ap eletrica / Ap Geral /Ambientes comuns "')
+        print('-- Não entendi. Tente de novo algo do tipo: "Elétrica" ou "Ambientes comuns"')
         return ChatBot.receiving_problem_type
 
 
 class ReceivingDescription(State):
     def run(self, first=True):
         if first:
-            print("-- Can you brief the problem?")
+            print("-- Por favor, descreva brevemente o problema.")
         print("\t[Receiving Description: Receiving description]")
 
     @staticmethod
@@ -126,7 +128,7 @@ class ReceivingDescription(State):
 class Tracking(State):
     def run(self, first=True):
         if first:
-            print("-- Okay, your request was recorded. If you want to know about it's status, tell me! ;)")
+            print("-- Ok, sua ordem foi recebida. Quando quiser saber sobre o andamento dela, me avise! ;)")
         print("\t[Tracking: Order sent, following it]")
 
     def next(self, inputs, info=None):
@@ -148,16 +150,16 @@ class Verifying(NonInputState):
     def next(self, info=None):
         n = Verifying.status()
         if n <= 0:
-            print("-- Your order is done!")
+            print("-- Serviço pronto!")
             return ChatBot.finishing
         else:
-            print(f'Your order is in position {n} of the list')
+            print(f'Sua ordem está na posição {n} da lista. Em breve estará pronta. :)')
             return ChatBot.tracking
 
 
 class Finishing(NonInputState):
     def run(self, first=True):
-        print("-- Could you fill out this form to give us a feedback? <link>")
+        print("-- Você pode preencher esse forms rápido para nos dar um feedback? <link>")
         print("\t[Finishing: service done, requesting feedback]")
 
     def next(self, info=None):
