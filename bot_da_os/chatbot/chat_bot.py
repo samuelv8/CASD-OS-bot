@@ -33,14 +33,13 @@ class ReceivingName(State):
         print("\t[ReceivingName: Receiving name]")
 
     @staticmethod
-    def store(inputs):
+    def store(info):
         # here check if it has all the information
-        if inputs == PersonAction.name:
-            return True
-        return False
+        print(f'## Nome: "{next(info)} {next(info)}" ##')
 
     def next(self, inputs, info=None):
-        if ReceivingName.store(inputs):
+        if inputs == PersonAction.name:
+            ReceivingName.store(info)
             return ChatBot.receiving_apartment
         print('-- Não entendi. Tente de novo algo do tipo: "Fulano Silva"')
         return ChatBot.receiving_name
@@ -53,14 +52,13 @@ class ReceivingApartment(State):
         print("\t[ReceivingApartment: Receiving Apartment]")
 
     @staticmethod
-    def store(inputs):
+    def store(info):
         # here check if it has all the information
-        if inputs == PersonAction.apartment:
-            return True
-        return False
+        print(f'## Ap: "{info[0]} {info[1]}" ##')
 
     def next(self, inputs, info=None):
-        if ReceivingApartment.store(inputs):
+        if inputs == PersonAction.apartment:
+            ReceivingApartment.store(info)
             return ChatBot.receiving_room
         print('-- Não entendi. Tente de novo algo do tipo: "222 D"')
         return ChatBot.receiving_apartment
@@ -73,14 +71,13 @@ class ReceivingRoom(State):
         print("\t[ReceivingRoom: Receiving Room]")
 
     @staticmethod
-    def store(inputs):
+    def store(info):
         # here check if it has all the information
-        if inputs == PersonAction.problem_room:
-            return True
-        return False
+        print(f'## Cômodo/ambiente: "{info}" ##')
 
     def next(self, inputs, info=None):
-        if ReceivingRoom.store(inputs):
+        if inputs == PersonAction.problem_room:
+            ReceivingRoom.store(info)
             return ChatBot.receiving_problem_type
         print('-- Não entendi. Tente de novo algo do tipo: "Cozinha" ou "Hall do B"')
         return ChatBot.receiving_room
@@ -93,14 +90,13 @@ class ReceivingProblemType(State):  # we could skip this state -- samuel
         print("\t[ReceivingProblemType: Receiving Problem Type]")
 
     @staticmethod
-    def store(inputs):
+    def store(info):
         # here check if it has all the information
-        if inputs == PersonAction.problem_type:
-            return True
-        return False
+        print(f'## Tipo: "{info}" ##')
 
     def next(self, inputs, info=None):
-        if ReceivingProblemType.store(inputs):
+        if inputs == PersonAction.problem_type:
+            ReceivingProblemType.store(info)
             return ChatBot.receiving_description
         print('-- Não entendi. Tente de novo algo do tipo: "Elétrica" ou "Vazamento"')
         return ChatBot.receiving_problem_type
@@ -113,14 +109,13 @@ class ReceivingDescription(State):
         print("\t[Receiving Description: Receiving description]")
 
     @staticmethod
-    def store(inputs):
+    def store(info):
         # here check if it has all the information
-        if inputs == PersonAction.problem_description:
-            return True
-        return False
+        print(f'## Descr.: "{info}" ##')
 
     def next(self, inputs, info=None):
-        if ReceivingDescription.store(inputs):
+        if inputs == PersonAction.problem_description:
+            ReceivingDescription.store(info)
             return ChatBot.tracking
         return ChatBot.receiving_description
 
