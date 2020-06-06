@@ -1,6 +1,5 @@
-from bot_da_os.statemachine.state import State
-from bot_da_os.statemachine.state_machine import StateMachine
-from bot_da_os.statemachine.person import person_action
+from bot_da_os.chatbot.statemachine.state import State
+from bot_da_os.chatbot.statemachine import StateMachine
 # A better mousetrap using tables
 import string, sys
 sys.path += ['../stateMachine', '../mouse']

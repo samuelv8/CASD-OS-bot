@@ -1,10 +1,8 @@
-from bot_da_os.statemachine.person.person_action import PersonAction
-from bot_da_os.statemachine.state import State, NonInputState
-from bot_da_os.statemachine.state_machine import StateMachine
+from bot_da_os.chatbot.statemachine.person.person_action import PersonAction
+from bot_da_os.chatbot.statemachine.state import State, NonInputState
+from bot_da_os.chatbot.statemachine.state_machine import StateMachine
 from random import randint
-import sys
-
-sys.path += ['../statemachine', '../person']
+# import sys
 
 # NOTES:
 # -need to actually store the information obtained in interpreter
@@ -178,8 +176,7 @@ ChatBot.receiving_problem_type = ReceivingProblemType()
 ChatBot.verifying = Verifying()
 ChatBot.finishing = Finishing()
 
-moves = map(str.strip, open("../statemachine/person/person_moves.txt").readlines())
-ChatBot().run_all(map(PersonAction, moves))
-# print("#" * 76)
-# moves = map(str.strip, open("../statemachine/person/person_moves2.txt").readlines())
+# sys.path += ['../statemachine', '../person']
+# moves = map(str.strip, open("../statemachine/person/person_moves.txt").readlines())
 # ChatBot().run_all(map(PersonAction, moves))
+ChatBot().run_all()
