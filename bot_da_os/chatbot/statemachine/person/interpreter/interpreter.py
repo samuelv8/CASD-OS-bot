@@ -70,12 +70,6 @@ def person_interpreter(message: object, state: str) -> tuple:
     elif state == "ReceivingDescription":
         return message, None
 
-    elif state == "Tracking":
-        return message, None
-
-    elif state == "Finishing":
-        return message, None
-
     else:
         return message, None
 
