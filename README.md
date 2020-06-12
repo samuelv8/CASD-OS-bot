@@ -10,3 +10,12 @@ to write your content.
 - Foo
 - Bar
 - Baz
+
+## Running
+
+```sh
+pipenv shell
+pipenv lock
+pipenv sync
+python main.py
+```
