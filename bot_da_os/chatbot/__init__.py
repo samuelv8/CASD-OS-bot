@@ -1,3 +1,4 @@
+from bot_da_os.chatbot.statemachine.person.interpreter.interpreter import person_interpreter
 from bot_da_os.chatbot.statemachine.person.person_action import PersonAction
 from bot_da_os.chatbot.statemachine.state import State, NonInputState
 from bot_da_os.chatbot.statemachine.state_machine import StateMachine
@@ -6,6 +7,7 @@ from random import randint
 
 # NOTES:
 # -need to actually store the information obtained in interpreter
+# -need to implement 'not sure' (see ReceivingRoom class)
 
 
 class Waiting(State):
@@ -75,6 +77,9 @@ class ReceivingRoom(State):
 
     def next(self, inputs, info=None):
         if inputs == PersonAction.problem_room:
+            # if not inputs.sure:
+            #     print(f'-- Você quis dizer {info}?')
+            #     t, i = person_interpreter(PersonAction(input()), self.__name__)
             ReceivingRoom.store(info)
             return ChatBot.receiving_problem_type
         print('-- Não entendi. Tente de novo algo do tipo: "Cozinha" ou "Hall do B"')
@@ -175,4 +180,3 @@ ChatBot.receiving_name = ReceivingName()
 ChatBot.receiving_problem_type = ReceivingProblemType()
 ChatBot.verifying = Verifying()
 ChatBot.finishing = Finishing()
-

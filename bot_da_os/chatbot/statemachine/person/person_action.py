@@ -4,6 +4,7 @@ from operator import eq
 class PersonAction:
     def __init__(self, action):
         self.action = action
+        self.sure = True
 
     def __str__(self): return self.action
 

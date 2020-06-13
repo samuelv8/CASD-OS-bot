@@ -12,15 +12,24 @@ def person_interpreter(message: object, state: str) -> tuple:
 
     if state == "Waiting":
         for w in words:
-            if word_find(w, 1, dicw)[1] == 1:
+            m, t = word_find(w, 1, dicw)
+            if t > -1:
                 message.action = 'thanks'
-                return message, None
-            elif word_find(w, 2, dicw)[1] == 1:
+                if t == 0:
+                    message.sure = False
+                return message, m
+            m, t = word_find(w, 2, dicw)
+            if t > -1:
                 message.action = 'request'
-                return message, None
-            elif word_find(w, 3, dicw)[1] == 1:
+                if t == 0:
+                    message.sure = False
+                return message, m
+            m, t = word_find(w, 3, dicw)
+            if t > -1:
                 message.action = 'greet'
-                return message, None
+                if t == 0:
+                    message.sure = False
+                return message, m
         message.action = 'unknown'
         return message, None
 
@@ -47,11 +56,13 @@ def person_interpreter(message: object, state: str) -> tuple:
 
     elif state == "ReceivingRoom":
         for w in words:
-            r = word_find(w, 4, dicw)
-            if r[1] == 1:
+            m, t = word_find(w, 4, dicw)
+            if t > -1:
                 message.action = 'proom'
-                return message, r[0]
-        # else:  # aqui deve achar informações em mais de uma palavra. Ex.: Hall do B
+                if t == 0:
+                    message.sure = False
+                return message, m
+            # aqui deve achar informações em mais de uma palavra. Ex.: Hall do B
             # prob_room = re.search(r'^.*(hall[abc]|corredor).*$', msg)
             # if prob_room:
         message.action = 'unknown'
@@ -59,27 +70,40 @@ def person_interpreter(message: object, state: str) -> tuple:
 
     elif state == "ReceivingProblemType":
         for w in words:
-            r = word_find(w, 5, dicw)
-            if r[1] == 1:
+            m, t = word_find(w, 5, dicw)
+            if t > -1:
                 message.action = 'ptype'
-                return message, r[0]
-
+                if t == 0:
+                    message.sure = False
+                return message, m
         message.action = 'unknown'
         return message, None
 
     elif state == "ReceivingDescription":
+        message.action = 'pdescr'
+        return message, msg
+
+    elif state == "Tracking":
+        for w in words:
+            m, t = word_find(w, 2, dicw)
+            if t > -1:
+                message.action = 'status'
+                if t == 0:
+                    message.sure = False
+                return message, m
+        message.action = 'unknown'
         return message, None
 
     else:
-        return message, None
+        raise Exception("Error: Invalid State.")
 
 
 # function will try any match from word in a given dict, using Levenshtein distance, and return a tuple (match, type)
-def word_find(word: str, key: int, dic: dict):
+def word_find(word: str, group: int, base_dic: dict):
     normalized_levenshtein = NormalizedLevenshtein()
     dist = {}
-    for k, v in dic.items():
-        if v == key:
+    for k, v in base_dic.items():
+        if v == group:
             dist[k] = 1.0
 
     for k, v in dist.items():
@@ -96,12 +120,14 @@ def word_find(word: str, key: int, dic: dict):
 
 ##################################################################################################################
 # Word database
-words_1 = ['obrigado', 'boa', 'valeu', 'obg', 'vlw', 'thanks', 'thx']
-words_2 = ['quero', 'gostaria', 'poderia', 'preciso', 'estou']
-words_3 = ['oi', 'ola', 'ei', 'olá', 'hey', 'bom dia', 'boa tarde', 'boa noite', 'opa']
+words_1 = ['obrigado', 'valeu', 'obg', 'vlw', 'thanks', 'thx']
+words_2 = ['quero', 'gostaria', 'poderia', 'preciso', 'estou', 'situação']
+words_3 = ['oi', 'ola', 'ei', 'olá', 'hey', 'bom', 'dia', 'boa', 'tarde', 'noite', 'opa']
 words_4 = ['quarto', 'vaga', 'cozinha', 'banheiro', 'apartamento', 'ap', 'sarcófago']
 words_5 = ['elétrico', 'encanamento', 'geral', 'mofo', 'estrutura', 'cama', 'infiltração', 'vazamento', 'porta',
            'janela', 'piso', 'mesa', 'lâmpada', 'chuveiro', 'parede']
+words_6 = ['sim', 'yes', 'é', 'isso', 'eh', 'exato', 'exatamente', 'uhum', 'aham']
+words_7 = ['não', 'no', 'nao']
 
 word_lists = [words_1, words_2, words_3, words_4, words_5]
 dicw = {}
