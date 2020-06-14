@@ -127,7 +127,10 @@ words_4 = ['quarto', 'vaga', 'cozinha', 'banheiro', 'apartamento', 'ap', 'sarcó
 words_5 = ['elétrico', 'encanamento', 'geral', 'mofo', 'estrutura', 'cama', 'infiltração', 'vazamento', 'porta',
            'janela', 'piso', 'mesa', 'lâmpada', 'chuveiro', 'parede']
 words_6 = ['sim', 'yes', 'é', 'isso', 'eh', 'exato', 'exatamente', 'uhum', 'aham']
-words_7 = ['não', 'no', 'nao']
+words_7 = ['não', 'no', 'nao', 'nn', 'n', 'nem', 'nope']
+words_8 = ['hall', 'corredor', 'feijao', 'hallzinho', 'hal', 'halzinho', 'comum', 'sala', 'jogos', 'gaga', 'lavanderia',
+           'lavanderita', 'academia', 'maromba', 'musica', 'piano', 'bandas', 'piscina', 'quiosque', 'jardins', 'jardim',
+           'adm', 'administracao', 'telhado', 'telhados']
 
 word_lists = [words_1, words_2, words_3, words_4, words_5]
 dicw = {}
