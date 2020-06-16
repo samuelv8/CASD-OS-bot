@@ -132,7 +132,7 @@ words_8 = ['hall', 'corredor', 'feijao', 'hallzinho', 'hal', 'halzinho', 'comum'
            'lavanderita', 'academia', 'maromba', 'musica', 'piano', 'bandas', 'piscina', 'quiosque', 'jardins', 'jardim',
            'adm', 'administracao', 'telhado', 'telhados']
 
-word_lists = [words_1, words_2, words_3, words_4, words_5]
+word_lists = [words_1, words_2, words_3, words_4, words_5, words_6, words_7, words_8]
 dicw = {}
 i = 0
 for l in word_lists:
