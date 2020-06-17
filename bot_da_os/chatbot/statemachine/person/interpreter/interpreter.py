@@ -128,11 +128,14 @@ words_5 = ['elétrico', 'encanamento', 'geral', 'mofo', 'estrutura', 'cama', 'in
            'janela', 'piso', 'mesa', 'lâmpada', 'chuveiro', 'parede']
 words_6 = ['sim', 'yes', 'é', 'isso', 'eh', 'exato', 'exatamente', 'uhum', 'aham']
 words_7 = ['não', 'no', 'nao', 'nn', 'n', 'nem', 'nope']
-words_8 = ['hall', 'corredor', 'feijao', 'hallzinho', 'hal', 'halzinho', 'comum', 'sala', 'jogos', 'gaga', 'lavanderia',
-           'lavanderita', 'academia', 'maromba', 'musica', 'piano', 'bandas', 'piscina', 'quiosque', 'jardins', 'jardim',
+# Words_8 is about common places which do not expect a letter as coordinate (such as Hall do C - place + letter)
+words_8 = ['feijao', 'hallzinho', 'halzinho', 'comum', 'sala', 'jogos', 'gaga', 'lavanderia',
+           'lavanderita', 'academia', 'maromba', 'musica', 'piano', 'bandas', 'piscina', 'quiosque',
            'adm', 'administracao', 'telhado', 'telhados']
+# words_9, in the other hand, expects a letter coordinate
+words_9  = ['hall', 'hal', 'hallzinho', 'halzinho', 'corredor', 'jardins', 'jardim', 'gramado']
 
-word_lists = [words_1, words_2, words_3, words_4, words_5, words_6, words_7, words_8]
+word_lists = [words_1, words_2, words_3, words_4, words_5, words_6, words_7, words_8, words_9]
 dicw = {}
 i = 0
 for l in word_lists:
