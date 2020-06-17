@@ -62,9 +62,24 @@ def person_interpreter(message: object, state: str) -> tuple:
                 if t == 0:
                     message.sure = False
                 return message, m
-            # aqui deve achar informações em mais de uma palavra. Ex.: Hall do B
-            # prob_room = re.search(r'^.*(hall[abc]|corredor).*$', msg)
-            # if prob_room:
+
+            l, t1 = word_find(w, 8, dicw)
+            if t1 > -1:
+                message.action = 'proom'
+                if t1 == 0:
+                    message.sure = False
+                return message, l
+
+            mm, t2 = word_find(w, 9, dicw)
+            if t2 > -1:
+                message.action = 'proom'
+                if t2 == 0:
+                    message.sure = False
+                lc = re.search(r'^.*[abc][+-]*$', msg)
+                if(lc):
+                     r_lc = [mm, lc.group(0)]
+                     return message, r_lc
+
         message.action = 'unknown'
         return message, None
 
@@ -123,8 +138,8 @@ def word_find(word: str, group: int, base_dic: dict):
 words_1 = ['obrigado', 'valeu', 'obg', 'vlw', 'thanks', 'thx']
 words_2 = ['quero', 'gostaria', 'poderia', 'preciso', 'estou', 'situação']
 words_3 = ['oi', 'ola', 'ei', 'olá', 'hey', 'bom', 'dia', 'boa', 'tarde', 'noite', 'opa']
-words_4 = ['quarto', 'vaga', 'cozinha', 'banheiro', 'apartamento', 'ap', 'sarcófago']
-words_5 = ['elétrico', 'encanamento', 'geral', 'mofo', 'estrutura', 'cama', 'infiltração', 'vazamento', 'porta',
+words_4 = ['quarto', 'vaga', 'cozinha', 'banheiro', 'apartamento', 'ap', 'sarcofago']
+words_5 = ['eletrico', 'encanamento', 'geral', 'mofo', 'estrutura', 'cama', 'infiltracaoo', 'vazamento', 'porta',
            'janela', 'piso', 'mesa', 'lâmpada', 'chuveiro', 'parede']
 words_6 = ['sim', 'yes', 'é', 'isso', 'eh', 'exato', 'exatamente', 'uhum', 'aham']
 words_7 = ['não', 'no', 'nao', 'nn', 'n', 'nem', 'nope']
@@ -133,7 +148,7 @@ words_8 = ['feijao', 'hallzinho', 'halzinho', 'comum', 'sala', 'jogos', 'gaga', 
            'lavanderita', 'academia', 'maromba', 'musica', 'piano', 'bandas', 'piscina', 'quiosque',
            'adm', 'administracao', 'telhado', 'telhados']
 # words_9, in the other hand, expects a letter coordinate
-words_9  = ['hall', 'hal', 'hallzinho', 'halzinho', 'corredor', 'jardins', 'jardim', 'gramado']
+words_9  = ['hall', 'hal', 'corredor', 'jardins', 'jardim', 'gramado', 'quadra']
 
 word_lists = [words_1, words_2, words_3, words_4, words_5, words_6, words_7, words_8, words_9]
 dicw = {}
