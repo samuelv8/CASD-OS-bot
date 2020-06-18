@@ -189,7 +189,7 @@ words_9 = ['hall', 'hal', 'corredor', 'jardins', 'jardim', 'gramado', 'quadra']
 # person is pissed off
 words_10 = ['caramba', 'casd', 'cade', 'poxa', 'bora', 'pior', 'aguento', 'ah', 'difícil', 'sugou', 'ocasdpara']
 
-word_lists = [words_1, words_2, words_3, words_4, words_5, words_6, words_7, words_8, words_9]
+word_lists = [words_1, words_2, words_3, words_4, words_5, words_6, words_7, words_8, words_9, words_10]
 dicw = {}
 i = 0
 for l in word_lists:
