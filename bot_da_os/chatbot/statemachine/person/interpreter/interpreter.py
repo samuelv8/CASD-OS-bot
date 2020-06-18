@@ -62,28 +62,24 @@ def person_interpreter(message: object, state: str) -> tuple:
                 if t == 0:
                     message.sure = False
                 return message, m
-
             m, t = word_find(w, 7, dicw)
             if t > -1:
                 message.action = 'no'
                 if t == 0:
                     message.sure = False
                 return message, m
-
             m, t = word_find(w, 4, dicw)
             if t > -1:
                 message.action = 'proom'
                 if t == 0:
                     message.sure = False
                 return message, m
-
             m, t = word_find(w, 8, dicw)
             if t > -1:
                 message.action = 'proom'
                 if t == 0:
                     message.sure = False
                 return message, m
-
             m, t = word_find(w, 9, dicw)
             if t > -1:
                 message.action = 'proom'
@@ -93,7 +89,6 @@ def person_interpreter(message: object, state: str) -> tuple:
                 if lc:
                     r_lc = [m, lc.group(0)]
                     return message, r_lc
-
         message.action = 'unknown'
         return message, None
 
@@ -102,6 +97,18 @@ def person_interpreter(message: object, state: str) -> tuple:
             m, t = word_find(w, 5, dicw)
             if t > -1:
                 message.action = 'ptype'
+                if t == 0:
+                    message.sure = False
+                return message, m
+            m, t = word_find(w, 6, dicw)
+            if t > -1:
+                message.action = 'yes'
+                if t == 0:
+                    message.sure = False
+                return message, m
+            m, t = word_find(w, 7, dicw)
+            if t > -1:
+                message.action = 'no'
                 if t == 0:
                     message.sure = False
                 return message, m
@@ -120,11 +127,27 @@ def person_interpreter(message: object, state: str) -> tuple:
                 if t == 0:
                     message.sure = False
                 return message, m
+            m, t = word_find(w, 10, dicw)
+            if t > -1:
+                message.action = 'angry'
+                if t == 0:
+                    message.sure = False
+                return message, m
         message.action = 'unknown'
         return message, None
 
     else:
         raise Exception("Error: Invalid State.")
+
+
+# # this could be useful to diminish repetition
+# def is_at(word: str, group: int, message: object, action: str):
+#     m, t = word_find(word, group, dicw)
+#     if t > -1:
+#         message.action = action
+#         if t == 0:
+#             message.sure = False
+#         return message, m
 
 
 # function will try any match from word in a given dict, using Levenshtein distance, and return a tuple (match, type)
@@ -150,10 +173,10 @@ def word_find(word: str, group: int, base_dic: dict):
 ##################################################################################################################
 # Word database
 words_1 = ['obrigado', 'valeu', 'obg', 'vlw', 'thanks', 'thx']
-words_2 = ['quero', 'gostaria', 'poderia', 'preciso', 'estou', 'situação']
-words_3 = ['oi', 'ola', 'ei', 'olá', 'hey', 'bom', 'dia', 'boa', 'tarde', 'noite', 'opa']
+words_2 = ['quero', 'gostaria', 'poderia', 'preciso', 'estou', 'situação', 'ei', 'ow', 'aí', 'eai', 'status', 'está']
+words_3 = ['oi', 'ola', 'olá', 'hey', 'bom', 'dia', 'boa', 'tarde', 'noite', 'opa']
 words_4 = ['quarto', 'vaga', 'cozinha', 'banheiro', 'apartamento', 'ap', 'sarcofago']
-words_5 = ['eletrico', 'encanamento', 'geral', 'mofo', 'estrutura', 'cama', 'infiltracaoo', 'vazamento', 'porta',
+words_5 = ['eletrico', 'encanamento', 'geral', 'mofo', 'estrutura', 'cama', 'infiltracao', 'vazamento', 'porta',
            'janela', 'piso', 'mesa', 'lâmpada', 'chuveiro', 'parede']
 words_6 = ['sim', 'yes', 'é', 'isso', 'eh', 'exato', 'exatamente', 'uhum', 'aham']
 words_7 = ['não', 'no', 'nao', 'nn', 'n', 'nem', 'nope']
@@ -163,6 +186,8 @@ words_8 = ['feijao', 'hallzinho', 'halzinho', 'comum', 'sala', 'jogos', 'gaga', 
            'adm', 'administracao', 'telhado', 'telhados']
 # words_9, in the other hand, expects a letter coordinate
 words_9 = ['hall', 'hal', 'corredor', 'jardins', 'jardim', 'gramado', 'quadra']
+# person is pissed off
+words_10 = ['caramba', 'casd', 'cade', 'poxa', 'bora', 'pior', 'aguento', 'ah', 'difícil', 'sugou', 'ocasdpara']
 
 word_lists = [words_1, words_2, words_3, words_4, words_5, words_6, words_7, words_8, words_9]
 dicw = {}

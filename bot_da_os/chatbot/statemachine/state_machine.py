@@ -13,7 +13,6 @@ class StateMachine:
     def run_all(self):
         while True:
             i = PersonAction(input())
-            print(i)
             s = self.current_state.__class__.__name__
             t, info = person_interpreter(i, s)  # 't' is the type, 'info' is useful information (can ben None)
             first = True

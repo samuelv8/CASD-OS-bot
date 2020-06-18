@@ -89,7 +89,7 @@ class ReceivingRoom(State):
         return ChatBot.receiving_room
 
 
-class ReceivingProblemType(State):  # we could skip this state -- samuel
+class ReceivingProblemType(State):
     def run(self, first=True):
         if first:
             print("-- Qual o tipo do problema?")
@@ -102,8 +102,14 @@ class ReceivingProblemType(State):  # we could skip this state -- samuel
 
     def next(self, inputs, info=None):
         if inputs == PersonAction.problem_type:
-            ReceivingProblemType.store(info)
-            return ChatBot.receiving_description
+            if inputs.sure:
+                ReceivingProblemType.store(info)
+                return ChatBot.receiving_description
+            print(f'-- Você quis dizer {info}?')
+            t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
+            if t == PersonAction.yes:
+                ReceivingProblemType.store(info)
+                return ChatBot.receiving_description
         print('-- Não entendi. Tente de novo algo do tipo: "Elétrica" ou "Vazamento"')
         return ChatBot.receiving_problem_type
 
