@@ -77,11 +77,14 @@ class ReceivingRoom(State):
 
     def next(self, inputs, info=None):
         if inputs == PersonAction.problem_room:
-            # if not inputs.sure:
-            #     print(f'-- Você quis dizer {info}?')
-            #     t, i = person_interpreter(PersonAction(input()), self.__name__)
-            ReceivingRoom.store(info)
-            return ChatBot.receiving_problem_type
+            if inputs.sure:
+                ReceivingRoom.store(info)
+                return ChatBot.receiving_problem_type
+            print(f'-- Você quis dizer {info}?')
+            t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
+            if t == PersonAction.yes:
+                ReceivingRoom.store(info)
+                return ChatBot.receiving_problem_type
         print('-- Não entendi. Tente de novo algo do tipo: "Cozinha" ou "Hall do B"')
         return ChatBot.receiving_room
 

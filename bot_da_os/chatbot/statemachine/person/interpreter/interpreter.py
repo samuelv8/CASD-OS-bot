@@ -56,6 +56,20 @@ def person_interpreter(message: object, state: str) -> tuple:
 
     elif state == "ReceivingRoom":
         for w in words:
+            m, t = word_find(w, 6, dicw)
+            if t > -1:
+                message.action = 'yes'
+                if t == 0:
+                    message.sure = False
+                return message, m
+
+            m, t = word_find(w, 7, dicw)
+            if t > -1:
+                message.action = 'no'
+                if t == 0:
+                    message.sure = False
+                return message, m
+
             m, t = word_find(w, 4, dicw)
             if t > -1:
                 message.action = 'proom'
@@ -63,22 +77,22 @@ def person_interpreter(message: object, state: str) -> tuple:
                     message.sure = False
                 return message, m
 
-            l, t1 = word_find(w, 8, dicw)
-            if t1 > -1:
+            m, t = word_find(w, 8, dicw)
+            if t > -1:
                 message.action = 'proom'
-                if t1 == 0:
+                if t == 0:
                     message.sure = False
-                return message, l
+                return message, m
 
-            mm, t2 = word_find(w, 9, dicw)
-            if t2 > -1:
+            m, t = word_find(w, 9, dicw)
+            if t > -1:
                 message.action = 'proom'
-                if t2 == 0:
+                if t == 0:
                     message.sure = False
                 lc = re.search(r'^.*[abc][+-]*$', msg)
-                if(lc):
-                     r_lc = [mm, lc.group(0)]
-                     return message, r_lc
+                if lc:
+                    r_lc = [m, lc.group(0)]
+                    return message, r_lc
 
         message.action = 'unknown'
         return message, None
@@ -148,7 +162,7 @@ words_8 = ['feijao', 'hallzinho', 'halzinho', 'comum', 'sala', 'jogos', 'gaga', 
            'lavanderita', 'academia', 'maromba', 'musica', 'piano', 'bandas', 'piscina', 'quiosque',
            'adm', 'administracao', 'telhado', 'telhados']
 # words_9, in the other hand, expects a letter coordinate
-words_9  = ['hall', 'hal', 'corredor', 'jardins', 'jardim', 'gramado', 'quadra']
+words_9 = ['hall', 'hal', 'corredor', 'jardins', 'jardim', 'gramado', 'quadra']
 
 word_lists = [words_1, words_2, words_3, words_4, words_5, words_6, words_7, words_8, words_9]
 dicw = {}
