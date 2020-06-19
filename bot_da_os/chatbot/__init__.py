@@ -2,6 +2,7 @@ from bot_da_os.chatbot.statemachine.person.interpreter.interpreter import person
 from bot_da_os.chatbot.statemachine.person.person_action import PersonAction
 from bot_da_os.chatbot.statemachine.state import State, NonInputState
 from bot_da_os.chatbot.statemachine.state_machine import StateMachine
+from bot_da_os.storage import save_synonym
 from random import randint
 # import sys
 
@@ -83,6 +84,7 @@ class ReceivingRoom(State):
             print(f'-- Você quis dizer {info}?')
             t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
             if t == PersonAction.yes:
+                save_synonym("foo", info) # TODO: retrieve typed word!
                 ReceivingRoom.store(info)
                 return ChatBot.receiving_problem_type
         print('-- Não entendi. Tente de novo algo do tipo: "Cozinha" ou "Hall do B"')
