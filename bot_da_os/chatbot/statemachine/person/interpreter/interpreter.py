@@ -4,6 +4,7 @@ import re
 import nltk
 from similarity.normalized_levenshtein import NormalizedLevenshtein
 
+
 # function will receive a message string and return a tuple (message_type, info)
 def person_interpreter(message: object, state: str) -> tuple:
     msg = message.__str__().lower()

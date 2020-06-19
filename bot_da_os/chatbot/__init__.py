@@ -6,9 +6,9 @@ from bot_da_os.storage import save_synonym
 from random import randint
 # import sys
 
-# NOTES:
+# TODO:
 # -need to actually store the information obtained in interpreter
-# -need to implement 'not sure' (see ReceivingRoom class)
+# -need to implement save_synonym
 
 
 class Waiting(State):
@@ -84,7 +84,7 @@ class ReceivingRoom(State):
             print(f'-- Você quis dizer {info}?')
             t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
             if t == PersonAction.yes:
-                save_synonym("foo", info) # TODO: retrieve typed word!
+                save_synonym("foo", info)  # TODO: retrieve typed word!
                 ReceivingRoom.store(info)
                 return ChatBot.receiving_problem_type
         print('-- Não entendi. Tente de novo algo do tipo: "Cozinha" ou "Hall do B"')
