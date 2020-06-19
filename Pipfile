@@ -11,6 +11,7 @@ nltk = "*"
 strsim = "*"
 pandas = "*"
 bot-da-os = {editable = true, path = "."}
+mysql-connector-python = "*"
 
 [requires]
 python_version = "3.8"
