@@ -85,7 +85,7 @@ def person_interpreter(message: object, state: str) -> tuple:
                 message.action = 'proom'
                 if t == 0:
                     message.sure = False
-                lc = re.search(r'[abc]? *([+-]?|mais|menos)*$', msg)
+                lc = re.search(r'[abc] *[+\-]|mais|menos', msg)
                 if lc:
                     r_lc = m + ' ' + lc.group(0)
                     return message, r_lc
