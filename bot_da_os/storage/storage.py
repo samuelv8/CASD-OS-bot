@@ -50,18 +50,25 @@ CREATE TABLE IF NOT EXISTS db_service_orders (
 );"""
 execute_query(connection, create_os_table)
 
-records = "INSERT INTO db_service_orders (id_cellphone, nome, ap, p_room, p_type, p_description, status) VALUES (51999207247, 'Alexandre bernat', '315 b', 'cozinha', 'vazamento', 'pia fudida', 0)"
-execute_query(connection, records)
+create_os_synonyms = """
+CREATE TABLE IF NOT EXISTS db_synonyms (
+  id IDENTITY 
+  intended TXT NOT NULL PRIMARY KEY,
+  given TXT NOT NULL,
+  status BIT NOT NULL
+);"""
 
-select = "SELECT * FROM db_service_orders"
-lida = execute_read_query(connection, select)
-
-for linha in lida:
-    print(linha)
-
-def save_information(info: str, type: str, id: int):
-    pass
+def save_information(info: str, nome_da_col: str, id: int):
+    records = "INSERT INTO db_service_orders (id_cellphone, nome_da_col) VALUES (id, info)"
+    execute_query(connection, records)
 
 
-def save_synonym(given_info: str, intended_info: list, yes: bool):
-    pass
+def save_synonym(given_info: str, intended_info: str, yes: bool):
+    records = "INSERT INTO db_synonyms (intended, given, status) VALUES (intended_info, given_info, yes)"
+    execute_query(connection, records)
+
+def show_table (tb):
+    select = "SELECT * FROM tb"
+    lida = execute_read_query(connection, select)
+    for linha in lida:
+        print(linha)
