@@ -2,14 +2,14 @@ from bot_da_os.chatbot.statemachine.person.interpreter.interpreter import person
 from bot_da_os.chatbot.statemachine.person.person_action import PersonAction
 from bot_da_os.chatbot.statemachine.state import State, NonInputState
 from bot_da_os.chatbot.statemachine.state_machine import StateMachine
-from bot_da_os.storage import save_synonym
+from bot_da_os.storage.storage import *
 from random import randint
 # import sys
 
 # TODO:
 # -need to actually store the information obtained in interpreter
 # -need to implement save_synonym
-
+cell = int(input("Digite seu celular: "))
 
 class Waiting(State):
     def run(self, first=True):
@@ -36,7 +36,11 @@ class ReceivingName(State):
     @staticmethod
     def store(info):
         # here check if it has all the information
-        print(f'## Nome: "{next(info)} {next(info)}" ##')
+        connect = create_connection('db_orders.db')
+        copia = next(info) + ' ' + next(info)
+        save_name(copia, cell, connect)
+        connect.close()
+
 
     def next(self, inputs, info=None):
         if inputs == PersonAction.name:
@@ -55,6 +59,9 @@ class ReceivingApartment(State):
     @staticmethod
     def store(info):
         # here check if it has all the information
+        connect = create_connection('db_orders.db')
+        save_ap(info[0]+" "+info[1], cell, connect)
+        connect.close()
         print(f'## Ap: "{info[0]} {info[1]}" ##')
 
     def next(self, inputs, info=None):
@@ -74,6 +81,9 @@ class ReceivingRoom(State):
     @staticmethod
     def store(info):
         # here check if it has all the information
+        connect = create_connection('db_orders.db')
+        save_proom(info, cell, connect)
+        connect.close()
         print(f'## Cômodo/ambiente: "{info}" ##')
 
     def next(self, inputs, info=None):
@@ -84,7 +94,6 @@ class ReceivingRoom(State):
             print(f'-- Você quis dizer {info}?')
             t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
             if t == PersonAction.yes:
-                save_synonym("foo", info)  # TODO: retrieve typed word!
                 ReceivingRoom.store(info)
                 return ChatBot.receiving_problem_type
         print('-- Não entendi. Tente de novo algo do tipo: "Cozinha" ou "Hall do B"')
@@ -100,6 +109,9 @@ class ReceivingProblemType(State):
     @staticmethod
     def store(info):
         # here check if it has all the information
+        connect = create_connection('db_orders.db')
+        save_ptype(info, cell, connect)
+        connect.close()
         print(f'## Tipo: "{info}" ##')
 
     def next(self, inputs, info=None):
@@ -125,6 +137,9 @@ class ReceivingDescription(State):
     @staticmethod
     def store(info):
         # here check if it has all the information
+        connect = create_connection('db_orders.db')
+        save_pdescription(info, cell, connect)
+        connect.close()
         print(f'## Descr.: "{info}" ##')
 
     def next(self, inputs, info=None):
