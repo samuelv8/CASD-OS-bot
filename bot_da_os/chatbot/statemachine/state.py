@@ -3,16 +3,16 @@
 
 
 class State:
-    def run(self, first=True):
+    def run(self, user_id, first=True):
         assert 0, "run not implemented"
 
-    def next(self, inputs, info=None):
+    def next(self, user_id, inputs, info=None):
         assert 0, "next not implemented"
 
 
 class NonInputState:
-    def run(self, first=True):
+    def run(self, user_id, first=True):
         assert 0, "run not implemented"
 
-    def next(self, info=None):
+    def next(self, user_id, info=None):
         assert 0, "next not implemented"

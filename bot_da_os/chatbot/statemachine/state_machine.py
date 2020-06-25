@@ -3,14 +3,17 @@
 from .person.interpreter.interpreter import person_interpreter
 from .person.person_action import PersonAction
 from .state import NonInputState
+import threading
 
 
-class StateMachine:
-    def __init__(self, initial_state):
+class StateMachine(threading.Thread):
+    def __init__(self, user_id, initial_state):
+        threading.Thread.__init__(self)
+        self.user_id = user_id
         self.current_state = initial_state
-        self.current_state.run()
+        self.current_state.run(user_id)
 
-    def run_all(self):
+    def run(self):
         while True:
             try:
                 i = PersonAction(input())
@@ -20,11 +23,11 @@ class StateMachine:
             s = self.current_state.__class__.__name__
             t, info = person_interpreter(i, s)  # 't' is the type, 'info' is useful information (can ben None)
             first = True
-            new = self.current_state.next(t, info)
+            new = self.current_state.next(self.user_id, t, info)
             if new == self.current_state:
                 first = False
             self.current_state = new
-            self.current_state.run(first)
+            self.current_state.run(self.user_id, first)
             while issubclass(self.current_state.__class__, NonInputState):  # runs the loop again without inputs
-                self.current_state = self.current_state.next()
-                self.current_state.run(False)
+                self.current_state = self.current_state.next(self.user_id, )
+                self.current_state.run(self.user_id, False)
