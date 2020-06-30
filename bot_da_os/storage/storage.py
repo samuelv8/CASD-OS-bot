@@ -34,7 +34,7 @@ def execute_read_query(connect, query):
 
 
 def show_table(tb, connect):
-    select = "SELECT * FROM ordens"
+    select = "SELECT * FROM " + tb
     cursor = connect.cursor()
     cursor.execute(select)
     result = cursor.fetchall()
@@ -90,13 +90,20 @@ def save_pdescription(info: str, id: int, connect):
 
 def save_synonym(given_info: str, intended_info: str, yes: bool, connect):
     # a conexão desse banco deve ser feita em Voce quis dizer para combar com aprendizado de maquina
-    records = "INSERT INTO db_synonyms (intended, given, status) VALUES (intended_info, given_info, yes)"
-    execute_query(connect, records)
-
+    records = "INSERT INTO db_synonyms (intended, given, status) VALUES (?, ?, ?)"
+    cursor = connect.cursor()
+    cursor.execute(records, (intended_info, given_info, yes))
+    connect.commit()
+    show_table('db_synonyms', connect)
 
 if __name__ == '__main__':
 
-    connection = create_connection('C:\\Users\\alexa\\bot-da-os\\db_orders.db')
+    # running in Caio's computer:
+    connection = create_connection('db_orders.db')
+
+    # running in Alex's computer:
+    # connection = create_connection('C:\\Users\\alexa\\bot-da-os\\db_orders.db')
+
     create_os_table = """
     CREATE TABLE IF NOT EXISTS ordens (
     
@@ -113,16 +120,18 @@ if __name__ == '__main__':
 
     create_os_synonyms = """
     CREATE TABLE IF NOT EXISTS sinonyms (
+    
       id IDENTITY 
       intended TXT NOT NULL PRIMARY KEY,
       given TXT NOT NULL,
       status BIT NOT NULL
     );"""
-    # execute_query(connection, create_os_synonyms)
+    execute_query(connection, create_os_synonyms)
 
-    #deletar = "DROP TABLE ordens"
+    #deletar = "DROP TABLE " + "ordens"
     #connection.cursor().execute(deletar)
 
-    show_table('his', connection)
+    show_table('ordens', connection)
+    # show_table('db_synonyms', connection)
 
     connection.close()
