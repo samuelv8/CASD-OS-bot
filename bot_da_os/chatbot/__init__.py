@@ -15,7 +15,7 @@ class Waiting(State):
     def run(self, user_id, first=True):
         print("\t[Waiting: Waiting for request]")
 
-    def next(self, user_id, inputs, info=None):
+    def next(self, user_id, inputs, info=None, original_input=None):
         if inputs == PersonAction.request:
             return ChatBot.receiving_name
         elif inputs == PersonAction.greet or inputs == PersonAction.angry:
@@ -41,7 +41,7 @@ class ReceivingName(State):
         save_name(copia, int(user_id), connect)
         connect.close()
 
-    def next(self, user_id, inputs, info=None):
+    def next(self, user_id, inputs, info=None, original_input=None):
         if inputs == PersonAction.name:
             ReceivingName.store(user_id, info)
             return ChatBot.receiving_apartment
@@ -63,7 +63,7 @@ class ReceivingApartment(State):
         connect.close()
         print(f'## Ap: "{info[0]} {info[1]}" ##')
 
-    def next(self, user_id, inputs, info=None):
+    def next(self, user_id, inputs, info=None, original_input=None):
         if inputs == PersonAction.apartment:
             ReceivingApartment.store(user_id, info)
             return ChatBot.receiving_room
@@ -85,14 +85,20 @@ class ReceivingRoom(State):
         connect.close()
         print(f'## Cômodo/ambiente: "{info}" ##')
 
-    def next(self, user_id, inputs, info=None):
+    def next(self, user_id, inputs, info=None, original_input=None):
         if inputs == PersonAction.problem_room:
             if inputs.sure:
                 ReceivingRoom.store(user_id, info)
                 return ChatBot.receiving_problem_type
             print(f'-- Você quis dizer {info}?')
             t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
-            if t == PersonAction.yes:
+            connect = create_connection('db_synonyms.db')
+            if t == PersonAction.no:
+                save_synonym(original_input.action, info, False, connect)
+                connect.close()
+            else:
+                save_synonym(original_input.action, info, True, connect)
+                connect.close()
                 ReceivingRoom.store(user_id, info)
                 return ChatBot.receiving_problem_type
         print('-- Não entendi. Tente de novo algo do tipo: "Cozinha" ou "Hall do B"')
@@ -113,14 +119,20 @@ class ReceivingProblemType(State):
         connect.close()
         print(f'## Tipo: "{info}" ##')
 
-    def next(self, user_id, inputs, info=None):
+    def next(self, user_id, inputs, info=None, original_input=None):
         if inputs == PersonAction.problem_type:
             if inputs.sure:
                 ReceivingProblemType.store(user_id, info)
                 return ChatBot.receiving_description
             print(f'-- Você quis dizer {info}?')
             t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
-            if t == PersonAction.yes:
+            connect = create_connection('db_synonyms.db')
+            if t == PersonAction.no:
+                save_synonym(original_input.action, info, False, connect)
+                connect.close()
+            else:
+                save_synonym(original_input.action, info, False, connect)
+                connect.close()
                 ReceivingProblemType.store(user_id, info)
                 return ChatBot.receiving_description
         print('-- Não entendi. Tente de novo algo do tipo: "Elétrica" ou "Vazamento"')
@@ -141,7 +153,7 @@ class ReceivingDescription(State):
         connect.close()
         print(f'## Descr.: "{info}" ##')
 
-    def next(self, user_id, inputs, info=None):
+    def next(self, user_id, inputs, info=None, original_input=None):
         if inputs == PersonAction.problem_description:
             ReceivingDescription.store(user_id, info)
             return ChatBot.tracking
@@ -154,7 +166,7 @@ class Tracking(State):
             print("-- Ok, sua ordem foi recebida. Quando quiser saber sobre o andamento dela, me avise! ;)")
         print("\t[Tracking: Order sent, following it]")
 
-    def next(self, user_id, inputs, info=None):
+    def next(self, user_id, inputs, info=None, original_input=None):
         if inputs == PersonAction.status or inputs == PersonAction.angry:
             return ChatBot.verifying
         return ChatBot.tracking

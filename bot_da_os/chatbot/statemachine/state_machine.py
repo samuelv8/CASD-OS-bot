@@ -21,13 +21,14 @@ class StateMachine(threading.Thread):
                 print("bye bye")
                 break
             s = self.current_state.__class__.__name__
+            inp = i
             t, info = person_interpreter(i, s)  # 't' is the type, 'info' is useful information (can ben None)
             first = True
-            new = self.current_state.next(self.user_id, t, info)
+            new = self.current_state.next(self.user_id, t, info, inp)
             if new == self.current_state:
                 first = False
             self.current_state = new
             self.current_state.run(self.user_id, first)
             while issubclass(self.current_state.__class__, NonInputState):  # runs the loop again without inputs
-                self.current_state = self.current_state.next(self.user_id, )
+                self.current_state = self.current_state.next(self.user_id)
                 self.current_state.run(self.user_id, False)
