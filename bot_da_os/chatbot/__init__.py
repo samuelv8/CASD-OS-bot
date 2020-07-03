@@ -177,13 +177,17 @@ class Verifying(NonInputState):
         print("\t[Verifying: Checking the database]")
 
     @staticmethod
-    def status():
-        # here communicates with the db
-        n = randint(0, 2)
-        return n
+    def status(user_id):
+        connect = create_connection('db_orders.db')
+        stat = "SELECT id FROM ordens WHERE id_cellphone=?"
+        cursor = connect.cursor()
+        cursor.execute(stat, (user_id,))
+        n = cursor.fetchall()
+        connect.close()
+        return n[0][0]
 
     def next(self, user_id, info=None):
-        n = Verifying.status()
+        n = Verifying.status(user_id)
         if n <= 0:
             print("-- Serviço pronto!")
             return ChatBot.finishing

@@ -34,13 +34,14 @@ def execute_read_query(connect, query):
 
 
 def show_table(tb, connect):
+    print(f"ESTA EH A TABELA {tb}")
     select = "SELECT * FROM " + tb
     cursor = connect.cursor()
     cursor.execute(select)
     result = cursor.fetchall()
     for linha in result:
         print(linha)
-
+    print()
 
 def save_name(info: str, id: int, connect):
     cursor = connect.cursor()
