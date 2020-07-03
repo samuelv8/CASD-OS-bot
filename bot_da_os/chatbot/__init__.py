@@ -94,10 +94,10 @@ class ReceivingRoom(State):
             t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
             connect = create_connection('db_orders.db')
             if t == PersonAction.no:
-                save_synonym(original_input.action, info, False, connect)
+                save_synonym(original_input, info, False, connect)
                 connect.close()
             else:
-                save_synonym(original_input.action, info, True, connect)
+                save_synonym(original_input, info, True, connect)
                 connect.close()
                 ReceivingRoom.store(user_id, info)
                 return ChatBot.receiving_problem_type
@@ -128,10 +128,10 @@ class ReceivingProblemType(State):
             t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
             connect = create_connection('db_orders.db')
             if t == PersonAction.no:
-                save_synonym(original_input.action, info, False, connect)
+                save_synonym(original_input, info, False, connect)
                 connect.close()
             else:
-                save_synonym(original_input.action, info, False, connect)
+                save_synonym(original_input, info, False, connect)
                 connect.close()
                 ReceivingProblemType.store(user_id, info)
                 return ChatBot.receiving_description
