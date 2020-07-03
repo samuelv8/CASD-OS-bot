@@ -92,7 +92,7 @@ class ReceivingRoom(State):
                 return ChatBot.receiving_problem_type
             print(f'-- Você quis dizer {info}?')
             t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
-            connect = create_connection('db_synonyms.db')
+            connect = create_connection('db_orders.db')
             if t == PersonAction.no:
                 save_synonym(original_input.action, info, False, connect)
                 connect.close()
@@ -126,7 +126,7 @@ class ReceivingProblemType(State):
                 return ChatBot.receiving_description
             print(f'-- Você quis dizer {info}?')
             t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
-            connect = create_connection('db_synonyms.db')
+            connect = create_connection('db_orders.db')
             if t == PersonAction.no:
                 save_synonym(original_input.action, info, False, connect)
                 connect.close()
