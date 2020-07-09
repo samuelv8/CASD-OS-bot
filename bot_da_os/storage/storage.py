@@ -43,6 +43,7 @@ def show_table(tb, connect):
         print(linha)
     print()
 
+
 def save_name(info: str, id: int, connect):
     cursor = connect.cursor()
     try:
@@ -54,7 +55,7 @@ def save_name(info: str, id: int, connect):
         cursor.execute(records, (info, id))
 
     connect.commit()
-    show_table('ordens', connect)
+    # show_table('ordens', connect)
 
 
 def save_ap(info: str, id: int, connect):
@@ -62,7 +63,7 @@ def save_ap(info: str, id: int, connect):
     cursor = connect.cursor()
     cursor.execute(records, (info, id))
     connect.commit()
-    show_table('ordens', connect)
+    # show_table('ordens', connect)
 
 
 def save_proom(info: str, id: int, connect):
@@ -70,7 +71,7 @@ def save_proom(info: str, id: int, connect):
     cursor = connect.cursor()
     cursor.execute(records, (info, id))
     connect.commit()
-    show_table('ordens', connect)
+    # show_table('ordens', connect)
 
 
 def save_ptype(info: str, id: int, connect):
@@ -78,7 +79,7 @@ def save_ptype(info: str, id: int, connect):
     cursor = connect.cursor()
     cursor.execute(records, (info, id))
     connect.commit()
-    show_table('ordens', connect)
+    # show_table('ordens', connect)
 
 
 def save_pdescription(info: str, id: int, connect):
@@ -86,7 +87,7 @@ def save_pdescription(info: str, id: int, connect):
     cursor = connect.cursor()
     cursor.execute(records, (info, id))
     connect.commit()
-    show_table('ordens', connect)
+    # show_table('ordens', connect)
 
 
 def save_synonym(given_info: str, intended_info: str, yes: bool, connect):
@@ -95,7 +96,8 @@ def save_synonym(given_info: str, intended_info: str, yes: bool, connect):
     cursor = connect.cursor()
     cursor.execute(records, (intended_info, given_info, yes))
     connect.commit()
-    show_table('sinonimos', connect)
+    # show_table('sinonimos', connect)
+
 
 if __name__ == '__main__':
     pass
