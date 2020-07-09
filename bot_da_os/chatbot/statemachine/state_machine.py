@@ -21,7 +21,7 @@ class StateMachine(threading.Thread):
                 print("bye bye")
                 break
             s = self.current_state.__class__.__name__
-            inp = i.action
+            inp = i.action  # stores original input
             t, info = person_interpreter(i, s)  # 't' is the type, 'info' is useful information (can ben None)
             first = True
             new = self.current_state.next(self.user_id, t, info, inp)

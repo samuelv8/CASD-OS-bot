@@ -3,12 +3,6 @@ from bot_da_os.chatbot.statemachine.person.person_action import PersonAction
 from bot_da_os.chatbot.statemachine.state import State, NonInputState
 from bot_da_os.chatbot.statemachine.state_machine import StateMachine
 from bot_da_os.storage.storage import *
-from random import randint
-# import sys
-
-# TODO:
-# -need to actually store the information obtained in interpreter
-# -need to implement save_synonym
 
 
 class Waiting(State):
@@ -91,7 +85,7 @@ class ReceivingRoom(State):
                 ReceivingRoom.store(user_id, info)
                 return ChatBot.receiving_problem_type
             print(f'-- Você quis dizer {info}?')
-            t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
+            t, i = person_interpreter(PersonAction(input()), "Deciding")
             connect = create_connection('db_orders.db')
             if t == PersonAction.no:
                 save_synonym(original_input, info, False, connect)
@@ -125,13 +119,13 @@ class ReceivingProblemType(State):
                 ReceivingProblemType.store(user_id, info)
                 return ChatBot.receiving_description
             print(f'-- Você quis dizer {info}?')
-            t, i = person_interpreter(PersonAction(input()), self.__class__.__name__)
+            t, i = person_interpreter(PersonAction(input()), "Deciding")
             connect = create_connection('db_orders.db')
             if t == PersonAction.no:
                 save_synonym(original_input, info, False, connect)
                 connect.close()
             else:
-                save_synonym(original_input, info, False, connect)
+                save_synonym(original_input, info, True, connect)
                 connect.close()
                 ReceivingProblemType.store(user_id, info)
                 return ChatBot.receiving_description

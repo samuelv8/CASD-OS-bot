@@ -56,18 +56,6 @@ def person_interpreter(message: object, state: str) -> tuple:
 
     elif state == "ReceivingRoom":
         for w in words:
-            m, t = word_find(w, 6, dicw)
-            if t > -1:
-                message.action = 'yes'
-                if t == 0:
-                    message.sure = False
-                return message, m
-            m, t = word_find(w, 7, dicw)
-            if t > -1:
-                message.action = 'no'
-                if t == 0:
-                    message.sure = False
-                return message, m
             m, t = word_find(w, 4, dicw)
             if t > -1:
                 message.action = 'proom'
@@ -100,18 +88,6 @@ def person_interpreter(message: object, state: str) -> tuple:
                 if t == 0:
                     message.sure = False
                 return message, m
-            m, t = word_find(w, 6, dicw)
-            if t > -1:
-                message.action = 'yes'
-                if t == 0:
-                    message.sure = False
-                return message, m
-            m, t = word_find(w, 7, dicw)
-            if t > -1:
-                message.action = 'no'
-                if t == 0:
-                    message.sure = False
-                return message, m
         message.action = 'unknown'
         return message, None
 
@@ -136,18 +112,24 @@ def person_interpreter(message: object, state: str) -> tuple:
         message.action = 'unknown'
         return message, None
 
+    elif state == "Deciding":  # to 'yes' or 'no' answers (it's not a State itself)
+        for w in words:
+            m, t = word_find(w, 6, dicw)
+            if t > -1:
+                message.action = 'yes'
+                if t == 0:
+                    message.sure = False
+                return message, m
+            m, t = word_find(w, 7, dicw)
+            if t > -1:
+                message.action = 'no'
+                if t == 0:
+                    message.sure = False
+                return message, m
+        message.action = 'no'  # denial by default
+
     else:
         raise Exception("Error: Invalid State.")
-
-
-# # this could be useful to diminish repetition
-# def is_at(word: str, group: int, message: object, action: str):
-#     m, t = word_find(word, group, dicw)
-#     if t > -1:
-#         message.action = action
-#         if t == 0:
-#             message.sure = False
-#         return message, m
 
 
 # function will try any match from word in a given dict, using Levenshtein distance, and return a tuple (match, type)
@@ -170,23 +152,32 @@ def word_find(word: str, group: int, base_dic: dict):
     return None, -1  # -1 for no match
 
 
-##################################################################################################################
+######################################################################################################################
 # Word database
+# 1: Words related to acknowledgment
 words_1 = ['obrigado', 'valeu', 'obg', 'vlw', 'thanks', 'thx']
-words_2 = ['quero', 'gostaria', 'poderia', 'preciso', 'estou', 'situação', 'ei', 'ow', 'aí', 'eai', 'status', 'está']
-words_3 = ['oi', 'ola', 'olá', 'hey', 'bom', 'dia', 'boa', 'tarde', 'noite', 'opa']
-words_4 = ['quarto', 'vaga', 'cozinha', 'banheiro', 'apartamento', 'ap', 'sarcofago']
+# 2: Words to request
+words_2 = ['quero', 'gostaria', 'poderia', 'preciso', 'estou', 'situação', 'eai', 'status', 'está',
+           'então', 'favor']
+# 3: Words related to greeting
+words_3 = ['oi', 'ola', 'hey', 'bom', 'dia', 'boa', 'tarde', 'noite', 'opa', 'ei', 'ow', 'ai']
+# 4: Words to (private) rooms
+words_4 = ['quarto', 'vaga', 'cozinha', 'banheiro', 'apartamento', 'ap', 'sarcofago', 'entrada', 'box', 'tras',
+           'atras', 'banhero', 'toalete']
+# 5: Words related to problem types
 words_5 = ['eletrico', 'encanamento', 'geral', 'mofo', 'estrutura', 'cama', 'infiltracao', 'vazamento', 'porta',
-           'janela', 'piso', 'mesa', 'lâmpada', 'chuveiro', 'parede']
-words_6 = ['sim', 'yes', 'é', 'isso', 'eh', 'exato', 'exatamente', 'uhum', 'aham']
-words_7 = ['não', 'no', 'nao', 'nn', 'n', 'nem', 'nope']
-# Words_8 is about common places which do not expect a letter as coordinate (such as Hall do C - place + letter)
+           'janela', 'piso', 'mesa', 'lâmpada', 'chuveiro', 'parede', 'entupido', 'entupida', 'fio', 'teto']
+# 6: Words to agree
+words_6 = ['sim', 'yes', 'é', 'isso', 'eh', 'exato', 'exatamente', 'uhum', 'aham', 's', 'y']
+# 7: Words to disagree
+words_7 = ['não', 'no', 'nao', 'n', 'nem', 'nope']
+# 8: Words to common places which do not expect a letter as coordinate (such as Hall do C - place + letter)
 words_8 = ['feijao', 'hallzinho', 'halzinho', 'comum', 'sala', 'jogos', 'gaga', 'lavanderia',
            'lavanderita', 'academia', 'maromba', 'musica', 'piano', 'bandas', 'piscina', 'quiosque',
            'adm', 'administracao', 'telhado', 'telhados']
-# words_9, in the other hand, expects a letter coordinate
+# 9: Words to common places which do expects a letter coordinate
 words_9 = ['hall', 'hal', 'corredor', 'jardins', 'jardim', 'gramado', 'quadra']
-# person is pissed off
+# 10: Words related to rage
 words_10 = ['caramba', 'casd', 'cade', 'poxa', 'bora', 'pior', 'aguento', 'ah', 'difícil', 'sugou', 'ocasdpara']
 
 word_lists = [words_1, words_2, words_3, words_4, words_5, words_6, words_7, words_8, words_9, words_10]
