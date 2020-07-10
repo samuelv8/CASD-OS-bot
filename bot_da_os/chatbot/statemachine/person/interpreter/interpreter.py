@@ -12,6 +12,12 @@ def person_interpreter(message: object, state: str) -> tuple:
 
     if state == "Waiting":
         for w in words:
+            m, t = word_find(w, 11, dicw)
+            if t > -1:
+                message.action = 'status'
+                if t == 0:
+                    message.sure = False
+                return message, m
             m, t = word_find(w, 1, dicw)
             if t > -1:
                 message.action = 'thanks'
@@ -97,7 +103,7 @@ def person_interpreter(message: object, state: str) -> tuple:
 
     elif state == "Tracking":
         for w in words:
-            m, t = word_find(w, 2, dicw)
+            m, t = word_find(w, 11, dicw)
             if t > -1:
                 message.action = 'status'
                 if t == 0:
@@ -157,7 +163,7 @@ def word_find(word: str, group: int, base_dic: dict):
 # 1: Words related to acknowledgment
 words_1 = ['obrigado', 'valeu', 'obg', 'vlw', 'thanks', 'thx']
 # 2: Words to request
-words_2 = ['quero', 'gostaria', 'poderia', 'preciso', 'estou', 'situação', 'eai', 'status', 'está',
+words_2 = ['quero', 'gostaria', 'poderia', 'preciso', 'estou', 'eai', 'está',
            'então', 'favor']
 # 3: Words related to greeting
 words_3 = ['oi', 'ola', 'hey', 'bom', 'dia', 'boa', 'tarde', 'noite', 'opa', 'ei', 'ow', 'ai']
@@ -179,8 +185,10 @@ words_8 = ['feijao', 'hallzinho', 'halzinho', 'comum', 'sala', 'jogos', 'gaga', 
 words_9 = ['hall', 'hal', 'corredor', 'jardins', 'jardim', 'gramado', 'quadra']
 # 10: Words related to rage
 words_10 = ['caramba', 'casd', 'cade', 'poxa', 'bora', 'pior', 'aguento', 'ah', 'difícil', 'sugou', 'ocasdpara']
+# 11: Words related to status
+words_11 = ['situacao', 'situação', 'status']
 
-word_lists = [words_1, words_2, words_3, words_4, words_5, words_6, words_7, words_8, words_9, words_10]
+word_lists = [words_1, words_2, words_3, words_4, words_5, words_6, words_7, words_8, words_9, words_10, words_11]
 dicw = {}
 i = 0
 for l in word_lists:

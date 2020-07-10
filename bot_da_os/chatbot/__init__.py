@@ -12,6 +12,8 @@ class Waiting(State):
     def next(self, user_id, inputs, info=None, original_input=None):
         if inputs == PersonAction.request:
             return ChatBot.receiving_name
+        elif inputs == PersonAction.status:
+            return ChatBot.verifying
         elif inputs == PersonAction.greet or inputs == PersonAction.angry:
             print("-- Oi! Como posso ajudar você?")
         elif inputs == PersonAction.thanks:
@@ -173,21 +175,22 @@ class Verifying(NonInputState):
     @staticmethod
     def status(user_id):
         connect = create_connection('db_orders.db')
-        stat = "SELECT id FROM ordens WHERE id_cellphone=?"
-        cursor = connect.cursor()
-        cursor.execute(stat, (user_id,))
-        n = cursor.fetchall()
-        connect.close()
-        return n[0][0]
+        n = search_order(user_id, connect)
+        return n
+
 
     def next(self, user_id, info=None):
         n = Verifying.status(user_id)
-        if n <= 0:
-            print("-- Serviço pronto!")
-            return ChatBot.finishing
-        else:
-            print(f'Sua ordem está na posição {n} da lista. Em breve estará pronta. :)')
+        try:
+            if n <= 0:
+                  print("-- Todas as suas solicitações estão resolvidas!")
+                  return ChatBot.finishing
+        except:
+            for v in n:
+                print(f'Sua ordem cuja descrição é: "{v[0]}" está na posição {v[1]} da lista. Em breve estará pronta. :)')
+            print("Caso alguma ordem que você já solicitou esteja ausente dessa lista, significa que ela já foi resolvida!")
             return ChatBot.tracking
+
 
 
 class Finishing(NonInputState):

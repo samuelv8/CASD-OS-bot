@@ -46,46 +46,42 @@ def show_table(tb, connect):
 
 def save_name(info: str, id: int, connect):
     cursor = connect.cursor()
-    try:
-        records = "INSERT INTO ordens (id_cellphone, nome) VALUES (?, ?)"
-        cursor.execute(records, (id, info))
-    except:
-        records = "UPDATE ordens SET nome=? WHERE id_cellphone=?"
-        cursor = connect.cursor()
-        cursor.execute(records, (info, id))
-
+    records = "INSERT INTO ordens (id_cellphone, nome, status) VALUES (?, ?, ?)"
+    cursor.execute(records, (id, info, 2))
     connect.commit()
     # show_table('ordens', connect)
 
 
 def save_ap(info: str, id: int, connect):
-    records = "UPDATE ordens SET ap=? WHERE id_cellphone=?"
+    records = "UPDATE ordens SET ap=? WHERE status = 2"
     cursor = connect.cursor()
-    cursor.execute(records, (info, id))
+    cursor.execute(records, (info,))
     connect.commit()
     # show_table('ordens', connect)
 
 
 def save_proom(info: str, id: int, connect):
-    records = "UPDATE ordens SET p_room=? WHERE id_cellphone=?"
+    records = "UPDATE ordens SET p_room=? WHERE status = 2"
     cursor = connect.cursor()
-    cursor.execute(records, (info, id))
+    cursor.execute(records, (info,))
     connect.commit()
     # show_table('ordens', connect)
 
 
 def save_ptype(info: str, id: int, connect):
-    records = "UPDATE ordens SET p_type=? WHERE id_cellphone=?"
+    records = "UPDATE ordens SET p_type=? WHERE status = 2"
     cursor = connect.cursor()
-    cursor.execute(records, (info, id))
+    cursor.execute(records, (info,))
     connect.commit()
     # show_table('ordens', connect)
 
 
 def save_pdescription(info: str, id: int, connect):
-    records = "UPDATE ordens SET p_description=? WHERE id_cellphone=?"
+    records = "UPDATE ordens SET p_description=? WHERE status = 2"
+    records2 = "UPDATE ordens SET status=? WHERE status = 2"
     cursor = connect.cursor()
-    cursor.execute(records, (info, id))
+    cursor.execute(records, (info,))
+    cursor.execute(records2, (0,))
     connect.commit()
     # show_table('ordens', connect)
 
@@ -97,6 +93,25 @@ def save_synonym(given_info: str, intended_info: str, yes: bool, connect):
     cursor.execute(records, (intended_info, given_info, yes))
     connect.commit()
     # show_table('sinonimos', connect)
+
+def search_order(id, connect):
+    temp = """SELECT id_cellphone, p_description FROM ordens WHERE status = 0"""
+    cursor = connect.cursor()
+    cursor.execute(temp)
+    n = cursor.fetchall()
+    if n:
+        index = 1
+        posicoes = []
+        for v in n:
+            posicoes.append((v, index))
+            index = index + 1
+        busca_final = []
+        for v in posicoes:
+            if v[0][0] == int(id):
+                busca_final.append((v[0][1], v[1]))
+        return busca_final
+    return -1
+
 
 
 if __name__ == '__main__':
