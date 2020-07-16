@@ -5,11 +5,13 @@ import nltk
 from similarity.normalized_levenshtein import NormalizedLevenshtein
 from unicodedata import normalize
 
+# TODO: mostrar a palavra com acento quando perguntar para a pessoa: 'Vc quis dizer "x"?'
+
 
 # function will receive a message string and return a tuple (message_type, info)
 def person_interpreter(message: object, state: str) -> tuple:
     msg = message.__str__().lower()
-    msg_ascii = normalize('NFKD', msg).encode('ASCII', 'ignore').decode('ASCII')
+    msg_ascii = normalize('NFKD', msg).encode('ASCII', 'ignore').decode('ASCII')  # removes non-ASCII
     words = nltk.word_tokenize(msg_ascii)
 
     if state == "Waiting":

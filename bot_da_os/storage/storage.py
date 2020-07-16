@@ -94,6 +94,7 @@ def save_synonym(given_info: str, intended_info: str, yes: bool, connect):
     connect.commit()
     # show_table('sinonimos', connect)
 
+
 def search_order(id, connect):
     temp = """SELECT id_cellphone, p_description FROM ordens WHERE status = 0"""
     cursor = connect.cursor()
@@ -110,8 +111,7 @@ def search_order(id, connect):
             if v[0][0] == int(id):
                 busca_final.append((v[0][1], v[1]))
         return busca_final
-    return -1
-
+    return [(None, -1)]
 
 
 if __name__ == '__main__':
