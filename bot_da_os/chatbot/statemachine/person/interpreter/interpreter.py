@@ -3,12 +3,14 @@
 import re
 import nltk
 from similarity.normalized_levenshtein import NormalizedLevenshtein
+from unicodedata import normalize
 
 
 # function will receive a message string and return a tuple (message_type, info)
 def person_interpreter(message: object, state: str) -> tuple:
     msg = message.__str__().lower()
-    words = nltk.word_tokenize(msg)
+    msg_ascii = normalize('NFKD', msg).encode('ASCII', 'ignore').decode('ASCII')
+    words = nltk.word_tokenize(msg_ascii)
 
     if state == "Waiting":
         for w in words:
@@ -79,7 +81,7 @@ def person_interpreter(message: object, state: str) -> tuple:
                 message.action = 'proom'
                 if t == 0:
                     message.sure = False
-                lc = re.findall(r'^.* +([abc]).*([+\-]).*$', msg)
+                lc = re.findall(r'^.* +([abc]).*([+\-]).*$', msg_ascii)
                 if lc is not None:
                     r_lc = m + ' ' + lc[0][0] + lc[0][1]
                     return message, r_lc
@@ -163,8 +165,7 @@ def word_find(word: str, group: int, base_dic: dict):
 # 1: Words related to acknowledgment
 words_1 = ['obrigado', 'valeu', 'obg', 'vlw', 'thanks', 'thx']
 # 2: Words to request
-words_2 = ['quero', 'gostaria', 'poderia', 'preciso', 'estou', 'eai', 'está',
-           'então', 'favor']
+words_2 = ['quero', 'gostaria', 'poderia', 'preciso', 'estou', 'favor']
 # 3: Words related to greeting
 words_3 = ['oi', 'ola', 'hey', 'bom', 'dia', 'boa', 'tarde', 'noite', 'opa', 'ei', 'ow', 'ai']
 # 4: Words to (private) rooms
@@ -174,9 +175,9 @@ words_4 = ['quarto', 'vaga', 'cozinha', 'banheiro', 'apartamento', 'ap', 'sarcof
 words_5 = ['eletrico', 'encanamento', 'geral', 'mofo', 'estrutura', 'cama', 'infiltracao', 'vazamento', 'porta',
            'janela', 'piso', 'mesa', 'lâmpada', 'chuveiro', 'parede', 'entupido', 'entupida', 'fio', 'teto']
 # 6: Words to agree
-words_6 = ['sim', 'yes', 'é', 'isso', 'eh', 'exato', 'exatamente', 'uhum', 'aham', 's', 'y']
+words_6 = ['sim', 'yes', 'isso', 'eh', 'exato', 'exatamente', 'uhum', 'aham']
 # 7: Words to disagree
-words_7 = ['não', 'no', 'nao', 'n', 'nem', 'nope']
+words_7 = ['no', 'nao', 'nem', 'nope']
 # 8: Words to common places which do not expect a letter as coordinate (such as Hall do C - place + letter)
 words_8 = ['feijao', 'hallzinho', 'halzinho', 'comum', 'sala', 'jogos', 'gaga', 'lavanderia',
            'lavanderita', 'academia', 'maromba', 'musica', 'piano', 'bandas', 'piscina', 'quiosque',
@@ -184,9 +185,9 @@ words_8 = ['feijao', 'hallzinho', 'halzinho', 'comum', 'sala', 'jogos', 'gaga', 
 # 9: Words to common places which do expects a letter coordinate
 words_9 = ['hall', 'hal', 'corredor', 'jardins', 'jardim', 'gramado', 'quadra']
 # 10: Words related to rage
-words_10 = ['caramba', 'casd', 'cade', 'poxa', 'bora', 'pior', 'aguento', 'ah', 'difícil', 'sugou', 'ocasdpara']
+words_10 = ['caramba', 'casd', 'cade', 'poxa', 'bora', 'pior', 'aguento', 'ah', 'dificil', 'sugou', 'ocasdpara']
 # 11: Words related to status
-words_11 = ['situacao', 'situação', 'status']
+words_11 = ['situacao', 'status', 'eai', 'esta', 'entao']
 
 word_lists = [words_1, words_2, words_3, words_4, words_5, words_6, words_7, words_8, words_9, words_10, words_11]
 dicw = {}

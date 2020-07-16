@@ -178,19 +178,19 @@ class Verifying(NonInputState):
         n = search_order(user_id, connect)
         return n
 
-
     def next(self, user_id, info=None):
         n = Verifying.status(user_id)
         try:
             if n <= 0:
-                  print("-- Todas as suas solicitações estão resolvidas!")
-                  return ChatBot.finishing
+                print("-- Todas as suas solicitações estão resolvidas!")
+                return ChatBot.finishing
         except:
             for v in n:
-                print(f'Sua ordem cuja descrição é: "{v[0]}" está na posição {v[1]} da lista. Em breve estará pronta. :)')
-            print("Caso alguma ordem que você já solicitou esteja ausente dessa lista, significa que ela já foi resolvida!")
+                print(f'Sua ordem cuja descrição é: "{v[0]}" está na posição {v[1]} da lista.'
+                      f' Em breve estará pronta. :)')
+            print("Caso alguma ordem que você já solicitou esteja ausente dessa lista, "
+                  "significa que ela já foi resolvida!")
             return ChatBot.tracking
-
 
 
 class Finishing(NonInputState):
