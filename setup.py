@@ -13,6 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://gitlab.com/2020-mtp-03-grupo-09/bot-da-os",
     packages=setuptools.find_packages(),
+    install_requires=["nltk", "strsim", "pandas"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
